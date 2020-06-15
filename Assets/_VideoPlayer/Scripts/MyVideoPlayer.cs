@@ -1,11 +1,5 @@
 ﻿/*
-
-   .-------.                             .--.    .-------.     .--.            .--.     .--.        
-   |       |--.--.--------.-----.-----.--|  |    |_     _|--.--|  |_.-----.----|__|---.-|  |-----.
-   |   -   |_   _|        |  _  |     |  _  |      |   | |  |  |   _|  _  |   _|  |  _  |  |__ --|
-   |_______|__.__|__|__|__|_____|__|__|_____|      |___| |_____|____|_____|__| |__|___._|__|_____|
-   © 2019 OXMOND / www.oxmond.com 
-
+modified by Barnett Labs from: © 2019 OXMOND / www.oxmond.com
 */
 
 using UnityEngine;
@@ -34,6 +28,7 @@ public class MyVideoPlayer : MonoBehaviour
     private bool videoIsJumping = false;
     private bool videoIsPlaying = false;
     private VideoPlayer videoPlayer;
+    private bool haveReadFrameCount = false;
     
     private void Start  ()
     {
@@ -54,6 +49,12 @@ public class MyVideoPlayer : MonoBehaviour
                 float progress = (float)videoPlayer.frame / (float)videoPlayer.frameCount;
                 progressBar.transform.localScale = new Vector3(progressBarWidth * progress, progressBar.transform.localScale.y, 0);
                 knob.transform.localPosition = new Vector2(progressBar.transform.localPosition.x + (progressBarWidth * progress), knob.transform.localPosition.y);
+                if (!haveReadFrameCount)
+                {
+                    Debug.Log(videoPlayer.frameCount + " frames: " + videoPlayer.url);
+                    haveReadFrameCount = true;
+                }
+
             }
         }
 
@@ -71,7 +72,13 @@ public class MyVideoPlayer : MonoBehaviour
                 print("playBtn");
                 BtnPlayVideo();
             }
+            if (hitCollider != null && hitCollider.CompareTag(cinemaPlane.tag))
+            {
+                print("clicked Video window");
+                // BtnPlayVideo();
+            }
         }
+
     }
 
     public void KnobOnPressDown()
