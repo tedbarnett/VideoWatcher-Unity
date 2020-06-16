@@ -59,9 +59,10 @@ public class VideoWatcher : MonoBehaviour
 
     public void GetNextVideo()
     {
-        ++currentVideo;
-        Debug.Log("currentVideo = " + currentVideo);
-        if (currentVideo > VideoFileNames.Count) currentVideo = 0;
+        //++currentVideo;
+        //if (currentVideo > VideoFileNames.Count) currentVideo = 0;
+
+        currentVideo = Random.Range(0, VideoFileNames.Count);
         Debug.Log("filename: " + videoFileFolderPath + VideoFileNames[currentVideo]);
     }
 

@@ -1764,6 +1764,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3140732379475374280, guid: db3f6d45ba13042538589de87aba21dd,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3f6d45ba13042538589de87aba21dd, type: 3}
 --- !u!1001 &4137967466452074108
@@ -1773,6 +1778,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1731380448}
     m_Modifications:
+    - target: {fileID: 4137967467244650038, guid: 751d24cb2242042e7862367cc6984258,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4137967467244650042, guid: 751d24cb2242042e7862367cc6984258,
         type: 3}
       propertyPath: m_Name
@@ -2032,6 +2042,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Video Panel 00
       objectReference: {fileID: 0}
+    - target: {fileID: 4990695614800580013, guid: fc429263f172d41dd9e440d848a8676b,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4990695614800580015, guid: fc429263f172d41dd9e440d848a8676b,
         type: 3}
       propertyPath: m_Color.a
@@ -2175,6 +2190,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Video Panel 01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535017521616907221, guid: c1873e1ef8da34f26ae274582a79735a,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1873e1ef8da34f26ae274582a79735a, type: 3}
