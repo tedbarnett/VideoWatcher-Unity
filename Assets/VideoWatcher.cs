@@ -76,18 +76,20 @@ public class VideoWatcher : MonoBehaviour
                 // Debug.Log(fileNameString);
                 VideoFileNames.Add(fileNameString);
             }
-
-
         }
         Debug.Log("Total files = " + VideoFileNames.Count);
-        startupPanel.SetActive(false);
-        VideoPanels.SetActive(true);
 
     }
 
     public void ClickToStart() // triggered by the ClickToStart button
     {
         SetupVideoList();
+        ClickedOnPanel00();
+        ClickedOnPanel01();
+        ClickedOnPanel02();
+        ClickedOnPanel03();
+        startupPanel.SetActive(false);
+        VideoPanels.SetActive(true);
     }
 
     public void GetNextVideo()
