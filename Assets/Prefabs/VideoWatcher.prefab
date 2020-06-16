@@ -45,11 +45,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoFileFolderPath: ////Users/tedbarnett/Dropbox (barnettlabs)/Videos/Ted Videos/
   startupPanel: {fileID: 0}
-  VideoPanels: {fileID: 0}
-  VideoPanel00: {fileID: 0}
-  VideoPanel01: {fileID: 0}
-  VideoPanel02: {fileID: 0}
-  VideoPanel03: {fileID: 0}
-  ValidVideoFileExtensions:
+  videoPanels: {fileID: 0}
+  VideoPanel:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  VideoFileNameText:
+  - {fileID: 0}
+  ValidVideoExtensions:
   - .mp4
-  - .MP4
+  - .m4v
+  - .mov
+  showFilenameTimeSecs: 10
