@@ -29,16 +29,29 @@ public class VideoWatcher : MonoBehaviour
     {
         VideoPanels.SetActive(false);
         startupPanel.SetActive(true);
+        var videoPlayer00 = VideoPanel00.GetComponent<UnityEngine.Video.VideoPlayer>();
+        var videoPlayer01 = VideoPanel01.GetComponent<UnityEngine.Video.VideoPlayer>();
+        var videoPlayer02 = VideoPanel02.GetComponent<UnityEngine.Video.VideoPlayer>();
+        var videoPlayer03 = VideoPanel03.GetComponent<UnityEngine.Video.VideoPlayer>();
+        videoPlayer00.loopPointReached += EndReached00;
+        videoPlayer01.loopPointReached += EndReached01;
+        videoPlayer02.loopPointReached += EndReached02;
+        videoPlayer03.loopPointReached += EndReached03;
     }
 
     void Update()
     {
         if(lastStartTime != 0 && (Time.time - lastStartTime) > showFilenameTimeSecs)
         {
-            FileNameVideoPanel00.text = "";
-            FileNameVideoPanel01.text = "";
-            FileNameVideoPanel02.text = "";
-            FileNameVideoPanel03.text = "";
+            //FileNameVideoPanel00.text = "";
+            //FileNameVideoPanel01.text = "";
+            //FileNameVideoPanel02.text = "";
+            //FileNameVideoPanel03.text = "";
+
+            FileNameVideoPanel00.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+            FileNameVideoPanel01.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+            FileNameVideoPanel02.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+            FileNameVideoPanel03.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
             lastStartTime = 0;
         }
@@ -131,22 +144,47 @@ public class VideoWatcher : MonoBehaviour
 
     public void ShowName00()
     {
-        FileNameVideoPanel00.text = VideoFileNames[currentVideo]; // TODO: Fix since this won't be the filename!
+        //FileNameVideoPanel00.text = VideoFileNames[currentVideo]; // TODO: Fix since this won't be the filename!
         lastStartTime = Time.time;
+        FileNameVideoPanel00.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
+
     }
     public void ShowName01()
     {
-        FileNameVideoPanel01.text = VideoFileNames[currentVideo];
+        //FileNameVideoPanel01.text = VideoFileNames[currentVideo];
         lastStartTime = Time.time;
+        FileNameVideoPanel01.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
     }
     public void ShowName02()
     {
-        FileNameVideoPanel02.text = VideoFileNames[currentVideo];
+        //FileNameVideoPanel02.text = VideoFileNames[currentVideo];
         lastStartTime = Time.time;
+        FileNameVideoPanel02.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
     }
     public void ShowName03()
     {
-        FileNameVideoPanel03.text = VideoFileNames[currentVideo];
+        //FileNameVideoPanel03.text = VideoFileNames[currentVideo];
         lastStartTime = Time.time;
+        FileNameVideoPanel03.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
+    }
+
+    void EndReached00(UnityEngine.Video.VideoPlayer vp)
+    {
+        ClickedOnPanel00();
+    }
+
+    void EndReached01(UnityEngine.Video.VideoPlayer vp)
+    {
+        ClickedOnPanel01();
+    }
+
+    void EndReached02(UnityEngine.Video.VideoPlayer vp)
+    {
+        ClickedOnPanel02();
+    }
+
+    void EndReached03(UnityEngine.Video.VideoPlayer vp)
+    {
+        ClickedOnPanel03();
     }
 }
