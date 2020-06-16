@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2932264724636978533}
   - component: {fileID: 2932264724636978531}
+  - component: {fileID: 1821361453}
   m_Layer: 5
   m_Name: Video Panel
   m_TagString: Untagged
@@ -37,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -16.444458, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2932264724636978531
 CanvasRenderer:
@@ -47,6 +48,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2932264724636978532}
   m_CullTransparentMesh: 0
+--- !u!114 &1821361453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2932264724636978532}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 3
+  m_AspectRatio: 1.7777778
 --- !u!1 &4604395022017926330
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,12 +75,12 @@ GameObject:
   - component: {fileID: 944808523392003453}
   - component: {fileID: 8318791652265317840}
   m_Layer: 5
-  m_Name: Video Panel
+  m_Name: Video Player Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &921259330712089634
 RectTransform:
   m_ObjectHideFlags: 0
@@ -80,11 +95,11 @@ RectTransform:
   m_Father: {fileID: 2932264724636978533}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 800}
-  m_Pivot: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &9094337723528681921
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -187,11 +202,11 @@ RectTransform:
   m_Father: {fileID: 2932264724636978533}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120.04526, y: 75.04056}
-  m_Pivot: {x: 0, y: 1}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7290347251487219063
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -345,8 +360,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 381.7, y: 50.02}
-  m_SizeDelta: {x: 716.52844, y: 100.03987}
+  m_AnchoredPosition: {x: 361.77994, y: 50.020004}
+  m_SizeDelta: {x: 723.55994, y: 100.03993}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8339298174522176049
 CanvasRenderer:
@@ -441,7 +456,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 20, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2188631578470318975}
     characterCount: 14

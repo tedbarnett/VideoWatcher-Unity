@@ -16,7 +16,6 @@ public class GridSizeSetup : MonoBehaviour
     void Start()
     {
         totalChildrenCount = this.gameObject.transform.childCount;
-        Debug.Log("childCount = " + totalChildrenCount);
         cellsX = Mathf.CeilToInt(Mathf.Sqrt(totalChildrenCount)); //Convert.ToInt32(myFloat);
         cellsY = cellsX;
         if ((cellsX * (cellsX - 1)) >= totalChildrenCount) cellsY = cellsX - 1;
