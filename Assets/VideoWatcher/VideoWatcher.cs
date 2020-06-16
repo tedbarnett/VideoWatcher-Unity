@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class VideoWatcher : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class VideoWatcher : MonoBehaviour
     public GameObject startupPanel; // hide after loading
     public GameObject videoPanels; // show after loading
     public List<GameObject> VideoPanel; // a list of n videoPanels (4, 6, or whatever can be displayed)
-    public Text videoFileName;
+    public List<TextMeshProUGUI> VideoFileNameText; // TODO: need to get from VideoPanel[i] prefab
     public List<string> ValidVideoExtensions;
 
     private List<string> VideoFileNames;
@@ -32,7 +33,7 @@ public class VideoWatcher : MonoBehaviour
         // Hide (or fade out) Video filenames after showFilenameTimeSecs 
         if (lastStartTime != 0 && (Time.time - lastStartTime) > showFilenameTimeSecs)
         {
-            videoFileName.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+            VideoFileNameText[0].color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
             lastStartTime = 0;
         }
     }
@@ -77,14 +78,15 @@ public class VideoWatcher : MonoBehaviour
         GetNextVideo();
         videoPlayer.url = videoFileFolderPath + VideoFileNames[currentVideo];
         videoPlayer.Play();
-        videoFileName.text = VideoFileNames[currentVideo];
+        VideoFileNameText[0].text = VideoFileNames[currentVideo];
+        ShowName(panelID);
     }
     
 
-    public void ShowName()
+    public void ShowName(int panelID)
     {
         lastStartTime = Time.time;
-        videoFileName.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
+        VideoFileNameText[0].color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
     }
 
     void EndReached(UnityEngine.Video.VideoPlayer vp)
