@@ -83,7 +83,7 @@ public class VideoWatcher : MonoBehaviour
         //if (currentVideo > VideoFileNames.Count) currentVideo = 0;
 
         currentVideo = Random.Range(0, VideoFileNames.Count);
-        Debug.Log("filename: " + videoFileFolderPath + VideoFileNames[currentVideo]);
+        //Debug.Log("filename: " + videoFileFolderPath + VideoFileNames[currentVideo]);
         lastStartTime = Time.time;
     }
 
@@ -92,10 +92,8 @@ public class VideoWatcher : MonoBehaviour
 
         var videoPlayer00 = VideoPanel00.GetComponent<UnityEngine.Video.VideoPlayer>();
 
-        Debug.Log("Panel 00");
-        //Debug.Log("filename: " + videoFileFolderPath + VideoFileNames[currentVideo]);
-        Debug.Log("videoFileFolderPath: " + videoFileFolderPath);
-        Debug.Log("VideoFileNames[currentVideo]: " + VideoFileNames[currentVideo]);
+        //Debug.Log("videoFileFolderPath: " + videoFileFolderPath);
+        //Debug.Log("VideoFileNames[currentVideo]: " + VideoFileNames[currentVideo]);
 
         GetNextVideo();
 
@@ -105,7 +103,6 @@ public class VideoWatcher : MonoBehaviour
     }
     public void ClickedOnPanel01() // there MUST be a way to do this once and pass parameters!
     {
-        Debug.Log("Clicked panel 01");
 
         GetNextVideo();
         var videoPlayer01 = VideoPanel01.GetComponent<UnityEngine.Video.VideoPlayer>();
@@ -115,7 +112,6 @@ public class VideoWatcher : MonoBehaviour
     }
     public void ClickedOnPanel02() // there MUST be a way to do this once and pass parameters!
     {
-        Debug.Log("Clicked panel 02");
 
         GetNextVideo();
         var videoPlayer02 = VideoPanel02.GetComponent<UnityEngine.Video.VideoPlayer>();
@@ -125,12 +121,32 @@ public class VideoWatcher : MonoBehaviour
     }
     public void ClickedOnPanel03() // there MUST be a way to do this once and pass parameters!
     {
-        Debug.Log("Clicked panel 03");
 
         GetNextVideo();
         var videoPlayer03 = VideoPanel03.GetComponent<UnityEngine.Video.VideoPlayer>();
         videoPlayer03.url = videoFileFolderPath + VideoFileNames[currentVideo];
         videoPlayer03.Play();
         FileNameVideoPanel03.text = VideoFileNames[currentVideo];
+    }
+
+    public void ShowName00()
+    {
+        FileNameVideoPanel00.text = VideoFileNames[currentVideo]; // TODO: Fix since this won't be the filename!
+        lastStartTime = Time.time;
+    }
+    public void ShowName01()
+    {
+        FileNameVideoPanel01.text = VideoFileNames[currentVideo];
+        lastStartTime = Time.time;
+    }
+    public void ShowName02()
+    {
+        FileNameVideoPanel02.text = VideoFileNames[currentVideo];
+        lastStartTime = Time.time;
+    }
+    public void ShowName03()
+    {
+        FileNameVideoPanel03.text = VideoFileNames[currentVideo];
+        lastStartTime = Time.time;
     }
 }

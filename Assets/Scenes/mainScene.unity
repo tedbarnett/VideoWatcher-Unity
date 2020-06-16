@@ -686,6 +686,7 @@ GameObject:
   - component: {fileID: 658595047}
   - component: {fileID: 658595046}
   - component: {fileID: 658595045}
+  - component: {fileID: 658595048}
   m_Layer: 5
   m_Name: Button 03
   m_TagString: Untagged
@@ -803,6 +804,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658595043}
   m_CullTransparentMesh: 0
+--- !u!114 &658595048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658595043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1944103605433895025}
+          m_MethodName: ShowName03
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &868138064
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,6 +844,7 @@ GameObject:
   - component: {fileID: 868138068}
   - component: {fileID: 868138067}
   - component: {fileID: 868138066}
+  - component: {fileID: 868138069}
   m_Layer: 5
   m_Name: Button 00
   m_TagString: Untagged
@@ -932,6 +962,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868138064}
   m_CullTransparentMesh: 0
+--- !u!114 &868138069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868138064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1944103605433895025}
+          m_MethodName: ShowName00
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &906556905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,6 +1299,7 @@ GameObject:
   - component: {fileID: 1702509685}
   - component: {fileID: 1702509684}
   - component: {fileID: 1702509683}
+  - component: {fileID: 1702509686}
   m_Layer: 5
   m_Name: Button 02
   m_TagString: Untagged
@@ -1358,6 +1417,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702509681}
   m_CullTransparentMesh: 0
+--- !u!114 &1702509686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702509681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1944103605433895025}
+          m_MethodName: ShowName02
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1731380447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1419,6 +1506,7 @@ GameObject:
   - component: {fileID: 1737227609}
   - component: {fileID: 1737227608}
   - component: {fileID: 1737227607}
+  - component: {fileID: 1737227610}
   m_Layer: 5
   m_Name: Button 01
   m_TagString: Untagged
@@ -1536,6 +1624,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1737227605}
   m_CullTransparentMesh: 0
+--- !u!114 &1737227610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737227605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1944103605433895025}
+          m_MethodName: ShowName01
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1888392650 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4990695614800580009, guid: fc429263f172d41dd9e440d848a8676b,
@@ -1605,6 +1721,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
       propertyPath: startupPanel
       value: 
       objectReference: {fileID: 1164347804}
@@ -1653,6 +1774,66 @@ PrefabInstance:
       propertyPath: FileNameVideoPanel03
       value: 
       objectReference: {fileID: 1979776074}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[0]
+      value: .mp4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[1]
+      value: .MP4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[2]
+      value: .mov
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[3]
+      value: .MOV
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[4]
+      value: .m4v
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[5]
+      value: .3gp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[6]
+      value: .3GP
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[7]
+      value: .3G2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[8]
+      value: .XXX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[9]
+      value: .XXX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[10]
+      value: .XXX
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoFileExtensions.Array.data[11]
+      value: .XXX
+      objectReference: {fileID: 0}
     - target: {fileID: 6630820613455130565, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: m_LocalPosition.x
