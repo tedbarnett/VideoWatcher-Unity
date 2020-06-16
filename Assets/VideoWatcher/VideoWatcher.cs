@@ -29,13 +29,15 @@ public class VideoWatcher : MonoBehaviour
         for(int i = 0; i < VideoPanel.Count; i++)
         {
             Debug.Log(" i = " + i);
-            VideoPanel[i].GetComponentInChildren<Button>().onClick.AddListener(() => PlayNextVideo(i));
             var VideoFileNameTextTEMP = VideoPanel[i].gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
             VideoFileNameText.Add(VideoFileNameTextTEMP);
 
             var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             videoPlayer.loopPointReached += EndReached;
+
+            VideoPanel[i].GetComponentInChildren<Button>().onClick.AddListener(() => PlayNextVideoByVP(videoPlayer));
+
         }
         // TODO: Enable filename to appear on mouse-over
 
@@ -72,7 +74,13 @@ public class VideoWatcher : MonoBehaviour
     public void ClickToStart() // triggered by the ClickToStart button
     {
         SetupVideoList();
-        PlayNextVideo(0);
+        for (int i = 0; i < VideoPanel.Count; i++)
+        {
+            // TODO: Enable this!
+            var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            PlayNextVideoByVP(videoPlayer);
+        }
+
         startupPanel.SetActive(false);
         videoPanels.SetActive(true);
     }
@@ -85,12 +93,13 @@ public class VideoWatcher : MonoBehaviour
 
     public void PlayNextVideo(int panelID)
     {
+        Debug.Log("In PlayNextVideo, panelID = " + panelID);
 
         var videoPlayer = VideoPanel[panelID].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
 
         GetNextVideo();
         videoPlayer.url = videoFileFolderPath + VideoFileNames[currentVideo];
-        Debug.Log("In PlayNextVideo, panelID = " + panelID + ", VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
+        Debug.Log("Next video: VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
         videoPlayer.Play();
         VideoFileNameText[panelID].text = VideoFileNames[currentVideo];
         ShowName(panelID);

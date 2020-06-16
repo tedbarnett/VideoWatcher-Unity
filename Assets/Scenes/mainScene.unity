@@ -1665,134 +1665,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.size
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: VideoPanel.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoExtensions.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
       propertyPath: VideoFileNameText.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: startupPanel
       value: 
       objectReference: {fileID: 1164347804}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: VideoPanels
-      value: 
-      objectReference: {fileID: 1731380447}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: VideoPanel00
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: VideoPanel01
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: VideoPanel02
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: VideoPanel03
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: FileNameVideoPanel00
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: FileNameVideoPanel01
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: FileNameVideoPanel02
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: FileNameVideoPanel03
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[0]
-      value: .mp4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[1]
-      value: .MP4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[2]
-      value: .mov
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[3]
-      value: .MOV
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[4]
-      value: .m4v
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[5]
-      value: .3gp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[6]
-      value: .3GP
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[7]
-      value: .XXX
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[8]
-      value: .XXX
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[9]
-      value: .XXX
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[10]
-      value: .XXX
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoFileExtensions.Array.data[11]
-      value: .XXX
-      objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: videoPanels
@@ -1803,36 +1683,6 @@ PrefabInstance:
       propertyPath: VideoPanel.Array.data[0]
       value: 
       objectReference: {fileID: 1821361448}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: videoFileName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoExtensions.Array.data[0]
-      value: .mp4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoExtensions.Array.data[1]
-      value: .m4v
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: ValidVideoExtensions.Array.data[2]
-      value: .mov
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: VideoFileNameText.Array.data[0]
-      value: 
-      objectReference: {fileID: 1812234469}
-    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: showFilenameTimeSecs
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: VideoPanel.Array.data[1]
@@ -1848,6 +1698,26 @@ PrefabInstance:
       propertyPath: VideoPanel.Array.data[3]
       value: 
       objectReference: {fileID: 1633190582}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: VideoFileNameText.Array.data[0]
+      value: 
+      objectReference: {fileID: 1812234469}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: VideoFileNameText.Array.data[1]
+      value: 
+      objectReference: {fileID: 1812234469}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: VideoFileNameText.Array.data[2]
+      value: 
+      objectReference: {fileID: 1812234469}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: VideoFileNameText.Array.data[3]
+      value: 
+      objectReference: {fileID: 1812234469}
     - target: {fileID: 6630820613455130565, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1907,11 +1777,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VideoWatcher
-      objectReference: {fileID: 0}
-    - target: {fileID: 6630820613455130567, guid: 44086aa8253284ac2b21d2e78b2f63c9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44086aa8253284ac2b21d2e78b2f63c9, type: 3}
