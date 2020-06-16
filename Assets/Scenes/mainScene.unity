@@ -187,6 +187,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &238327889 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1877386619343683984, guid: fc429263f172d41dd9e440d848a8676b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4990695614540372067}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &339725840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,6 +1056,18 @@ VideoPlayer:
     type: 3}
   m_PrefabInstance: {fileID: 6535017521991430823}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1032774226 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 368409257002875922, guid: db3f6d45ba13042538589de87aba21dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 3140732379296736626}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1164347804
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,6 +1560,30 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 4137967466452074108}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1967906618 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8341418801474741510, guid: c1873e1ef8da34f26ae274582a79735a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6535017521991430823}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1979776074 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2171198813244929255, guid: 751d24cb2242042e7862367cc6984258,
+    type: 3}
+  m_PrefabInstance: {fileID: 4137967466452074108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1944103605433895025 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
@@ -1585,6 +1633,26 @@ PrefabInstance:
       propertyPath: VideoPanel03
       value: 
       objectReference: {fileID: 1891811398}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: FileNameVideoPanel00
+      value: 
+      objectReference: {fileID: 238327889}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: FileNameVideoPanel01
+      value: 
+      objectReference: {fileID: 1967906618}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: FileNameVideoPanel02
+      value: 
+      objectReference: {fileID: 1032774226}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: FileNameVideoPanel03
+      value: 
+      objectReference: {fileID: 1979776074}
     - target: {fileID: 6630820613455130565, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1654,6 +1722,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1731380448}
     m_Modifications:
+    - target: {fileID: 368409257002875922, guid: db3f6d45ba13042538589de87aba21dd,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3140732379475374276, guid: db3f6d45ba13042538589de87aba21dd,
         type: 3}
       propertyPath: m_Name
@@ -1769,6 +1842,11 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8724823393478218369, guid: db3f6d45ba13042538589de87aba21dd,
+        type: 3}
+      propertyPath: m_Name
+      value: Video 02 Filename
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db3f6d45ba13042538589de87aba21dd, type: 3}
 --- !u!1001 &4137967466452074108
@@ -1778,6 +1856,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1731380448}
     m_Modifications:
+    - target: {fileID: 2171198813244929255, guid: 751d24cb2242042e7862367cc6984258,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654784364297181849, guid: 751d24cb2242042e7862367cc6984258,
+        type: 3}
+      propertyPath: m_Name
+      value: Video 03 Filename
+      objectReference: {fileID: 0}
     - target: {fileID: 4137967467244650038, guid: 751d24cb2242042e7862367cc6984258,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -1902,6 +1990,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1731380448}
     m_Modifications:
+    - target: {fileID: 1877386619343683984, guid: fc429263f172d41dd9e440d848a8676b,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4881981322426294755, guid: fc429263f172d41dd9e440d848a8676b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -2072,6 +2165,11 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.43965825
       objectReference: {fileID: 0}
+    - target: {fileID: 8731178097881802899, guid: fc429263f172d41dd9e440d848a8676b,
+        type: 3}
+      propertyPath: m_Name
+      value: Video 00 Filename
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc429263f172d41dd9e440d848a8676b, type: 3}
 --- !u!1001 &6535017521991430823
@@ -2195,6 +2293,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PlayOnAwake
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341418801474741510, guid: c1873e1ef8da34f26ae274582a79735a,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595653549128132504, guid: c1873e1ef8da34f26ae274582a79735a,
+        type: 3}
+      propertyPath: m_Name
+      value: Video 01 Filename
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1873e1ef8da34f26ae274582a79735a, type: 3}

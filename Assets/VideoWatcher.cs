@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VideoWatcher : MonoBehaviour
 {
@@ -9,19 +10,38 @@ public class VideoWatcher : MonoBehaviour
     public GameObject startupPanel; // hide after loading
     public GameObject VideoPanels; // show after loading
     public GameObject VideoPanel00;
+    public Text FileNameVideoPanel00;
     public GameObject VideoPanel01;
+    public Text FileNameVideoPanel01;
     public GameObject VideoPanel02;
+    public Text FileNameVideoPanel02;
     public GameObject VideoPanel03;
+    public Text FileNameVideoPanel03;
     public List<string> ValidVideoFileExtensions;
 
     private List<string> VideoFileNames;
     private int currentVideo = 0;
+    public float showFilenameTimeSecs = 3;
+    private float lastStartTime = 0;
 
 
     void Start()
     {
         VideoPanels.SetActive(false);
         startupPanel.SetActive(true);
+    }
+
+    void Update()
+    {
+        if(lastStartTime != 0 && (Time.time - lastStartTime) > showFilenameTimeSecs)
+        {
+            FileNameVideoPanel00.text = "";
+            FileNameVideoPanel01.text = "";
+            FileNameVideoPanel02.text = "";
+            FileNameVideoPanel03.text = "";
+
+            lastStartTime = 0;
+        }
     }
 
     void SetupVideoList()
@@ -64,6 +84,7 @@ public class VideoWatcher : MonoBehaviour
 
         currentVideo = Random.Range(0, VideoFileNames.Count);
         Debug.Log("filename: " + videoFileFolderPath + VideoFileNames[currentVideo]);
+        lastStartTime = Time.time;
     }
 
     public void ClickedOnPanel00() // there MUST be a way to do this once and pass parameters!
@@ -80,6 +101,7 @@ public class VideoWatcher : MonoBehaviour
 
         videoPlayer00.url = videoFileFolderPath + VideoFileNames[currentVideo];
         videoPlayer00.Play();
+        FileNameVideoPanel00.text = VideoFileNames[currentVideo];
     }
     public void ClickedOnPanel01() // there MUST be a way to do this once and pass parameters!
     {
@@ -89,6 +111,7 @@ public class VideoWatcher : MonoBehaviour
         var videoPlayer01 = VideoPanel01.GetComponent<UnityEngine.Video.VideoPlayer>();
         videoPlayer01.url = videoFileFolderPath + VideoFileNames[currentVideo];
         videoPlayer01.Play();
+        FileNameVideoPanel01.text = VideoFileNames[currentVideo];
     }
     public void ClickedOnPanel02() // there MUST be a way to do this once and pass parameters!
     {
@@ -98,6 +121,7 @@ public class VideoWatcher : MonoBehaviour
         var videoPlayer02 = VideoPanel02.GetComponent<UnityEngine.Video.VideoPlayer>();
         videoPlayer02.url = videoFileFolderPath + VideoFileNames[currentVideo];
         videoPlayer02.Play();
+        FileNameVideoPanel02.text = VideoFileNames[currentVideo];
     }
     public void ClickedOnPanel03() // there MUST be a way to do this once and pass parameters!
     {
@@ -107,5 +131,6 @@ public class VideoWatcher : MonoBehaviour
         var videoPlayer03 = VideoPanel03.GetComponent<UnityEngine.Video.VideoPlayer>();
         videoPlayer03.url = videoFileFolderPath + VideoFileNames[currentVideo];
         videoPlayer03.Play();
+        FileNameVideoPanel03.text = VideoFileNames[currentVideo];
     }
 }
