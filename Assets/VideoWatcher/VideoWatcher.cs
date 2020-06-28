@@ -41,7 +41,7 @@ public class VideoWatcher : MonoBehaviour
             videoPlayer.loopPointReached += EndReached;
             var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>();
             Debug.Log("closureIndex = " + closureIndex + ", currentButton = " + currentButton);
-            currentButton.onClick.AddListener(() => { PlayNextVideoByIndex(closureIndex); });
+            currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
 
         }
         // TODO: Enable filename to appear on mouse-over
@@ -96,47 +96,15 @@ public class VideoWatcher : MonoBehaviour
         lastStartTime = Time.time;
     }
 
-    public void PlayNextVideo(int panelID)
-    {
-        Debug.Log("In PlayNextVideo, panelID = " + panelID);
-
-        var videoPlayer = VideoPanel[panelID].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-
-        GetNextVideo();
-        videoPlayer.url = videoFileFolderPath + VideoFileNames[currentVideo];
-        Debug.Log("Next video: VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
-        videoPlayer.Play();
-        VideoFileNameText[panelID].text = VideoFileNames[currentVideo];
-        ShowName(panelID);
-    }
-
-    public void PlayNextVideoByIndex(int i)
-    {
-        Debug.Log("In PlayNextVideoByIndex, i = " + i);
-        var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-
-        Debug.Log("In PlayNextVideoByIndex, and videoPlayer.name = " + vp.name);
-        GetNextVideo();
-        vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
-        vp.Play();
-
-        TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        //Debug.Log("VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
-        currentFileNameText.text = VideoFileNames[currentVideo];
-
-        lastStartTime = Time.time;
-        currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
-    }
-
     public void PlayNextVideoByVP(UnityEngine.Video.VideoPlayer vp)
     {
         Debug.Log("In PlayNextVideoByVP, videoPlayer.name = " + vp.name);
         GetNextVideo();
         vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
+        //TODO: If video is longer than 30 secs, start at random point
         vp.Play();
 
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        //Debug.Log("VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
         currentFileNameText.text = VideoFileNames[currentVideo];
 
         lastStartTime = Time.time;
@@ -152,8 +120,7 @@ public class VideoWatcher : MonoBehaviour
 
     void EndReached(UnityEngine.Video.VideoPlayer vp)
     {
-        //Debug.Log("vp = " + vp);
-        PlayNextVideoByVP(vp); // need to figure out WHICH VideoPlayer (vp) just ended before we call PlayNextVideo
+        PlayNextVideoByVP(vp);
         
     }
 }
