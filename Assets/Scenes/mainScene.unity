@@ -153,6 +153,7 @@ RectTransform:
   - {fileID: 345098725}
   - {fileID: 610937818}
   - {fileID: 386134253}
+  - {fileID: 1474038770}
   m_Father: {fileID: 1164347807}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1454,7 +1455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1164347805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1764,6 +1765,84 @@ PrefabInstance:
       objectReference: {fileID: 8400000, guid: f8f33214ecbcd4066b507688ff4b8cf6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0, type: 3}
+--- !u!1 &1474038769
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1474038770}
+  - component: {fileID: 1474038772}
+  - component: {fileID: 1474038771}
+  m_Layer: 5
+  m_Name: AutoLaunch countdown text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1474038770
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474038769}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.34094828, y: 0.34094828, z: 0.34094828}
+  m_Children: []
+  m_Father: {fileID: 175909337}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -366}
+  m_SizeDelta: {x: 740, y: 121.50986}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1474038771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474038769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.41144538, g: 0.42547515, b: 0.4339623, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 72
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 7
+    m_MaxSize: 72
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 10
+--- !u!222 &1474038772
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474038769}
+  m_CullTransparentMesh: 0
 --- !u!1 &1480003971 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2932264724636978532, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
@@ -2504,6 +2583,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
+      propertyPath: ValidVideoExtensions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
       propertyPath: startupPanel
       value: 
       objectReference: {fileID: 1164347804}
@@ -2565,8 +2649,28 @@ PrefabInstance:
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: videoFileFolderPathWindows
-      value: D:/Users/andSoForthUnity2019
+      value: D:\Dropbox (barnettlabs)\Videos\Ted Videos\
       objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: ValidVideoExtensions.Array.data[3]
+      value: .avi
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: showFilenameTimeSecs
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: secondsToAutoStart
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: AutoLaunchCountdownText
+      value: 
+      objectReference: {fileID: 1474038771}
     - target: {fileID: 6630820613455130565, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: m_LocalPosition.x

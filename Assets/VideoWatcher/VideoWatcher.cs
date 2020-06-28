@@ -13,14 +13,18 @@ public class VideoWatcher : MonoBehaviour
     public GameObject startupPanel; // hide after loading
     public GameObject videoPanels; // show after loading
     public List<GameObject> VideoPanel; // a list of n videoPanels (4, 6, or whatever can be displayed)
-    public List<TextMeshProUGUI> VideoFileNameText; // TODO: need to get from VideoPanel[i] prefab
+    public List<TextMeshProUGUI> VideoFileNameText;
     public List<string> ValidVideoExtensions;
+    public Text AutoLaunchCountdownText;
 
     private List<string> VideoFileNames;
     private int currentVideo = 0;
     public float showFilenameTimeSecs = 3;
     private float lastStartTime = 0;
     private int maxPanels = 6;
+    private bool awaitingClick = true;
+    private float launchedTime;
+    public float secondsToAutoStart = 10.0f;
 
 
     void Start()
@@ -34,6 +38,7 @@ public class VideoWatcher : MonoBehaviour
         #endif
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
+        launchedTime = Time.time;
 
 
         maxPanels = VideoPanel.Count; //TODO: If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
@@ -52,7 +57,6 @@ public class VideoWatcher : MonoBehaviour
 
         }
         // TODO: Enable filename to appear on mouse-over
-
     }
 
     void Update()
@@ -65,6 +69,17 @@ public class VideoWatcher : MonoBehaviour
                 VideoFileNameText[i].color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
                 lastStartTime = 0;
             }
+        }
+
+        if (awaitingClick && (Time.time - launchedTime) > secondsToAutoStart)
+            {
+            awaitingClick = false;
+            ClickToStart();
+            }
+        if (awaitingClick)
+        {
+            string timeLeft = Mathf.FloorToInt(secondsToAutoStart + launchedTime - Time.time).ToString();
+            AutoLaunchCountdownText.text = timeLeft;
         }
     }
 
@@ -116,13 +131,31 @@ public class VideoWatcher : MonoBehaviour
         GetNextVideo();
         vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
         //TODO: If video is longer than 30 secs, start at random point
-        vp.Play();
+        vp.prepareCompleted += videoIsPrepared;
+        vp.Prepare();
+        
+    }
 
+    void videoIsPrepared(UnityEngine.Video.VideoPlayer vp)
+    {
+
+        float videoLength = (float)vp.length; 
+        int min = Mathf.FloorToInt(videoLength / 60);
+        int sec = Mathf.FloorToInt(videoLength % 60);
+        string videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
+
+        // Set video name, without extension
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        currentFileNameText.text = VideoFileNames[currentVideo];
+        string fileNameLessExtension = VideoFileNames[currentVideo];
+        int fileExtPos = fileNameLessExtension.LastIndexOf(".");
+        if (fileExtPos >= 0)
+            fileNameLessExtension = fileNameLessExtension.Substring(0, fileExtPos);
+
+        currentFileNameText.text = fileNameLessExtension + " <color=#C1C1C1>(" + videoLengthString + ")</color>";
 
         lastStartTime = Time.time;
         currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
+        vp.Play();
     }
 
 
