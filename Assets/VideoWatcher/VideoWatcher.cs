@@ -20,6 +20,7 @@ public class VideoWatcher : MonoBehaviour
     private int currentVideo = 0;
     public float showFilenameTimeSecs = 3;
     private float lastStartTime = 0;
+    private int maxPanels = 6;
 
 
     void Start()
@@ -31,7 +32,10 @@ public class VideoWatcher : MonoBehaviour
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
 
-        for(int i = 0; i < VideoPanel.Count; i++)
+
+        maxPanels = VideoPanel.Count; //TODO: If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
+
+        for (int i = 0; i < maxPanels; i++)
         {
             int closureIndex = i; // prevents the closure problem!
             var VideoFileNameTextTEMP = VideoPanel[closureIndex].gameObject.GetComponentInChildren<TextMeshProUGUI>();
@@ -53,8 +57,11 @@ public class VideoWatcher : MonoBehaviour
         // Hide (or fade out) Video filenames after showFilenameTimeSecs 
         if (lastStartTime != 0 && (Time.time - lastStartTime) > showFilenameTimeSecs)
         {
-            VideoFileNameText[0].color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-            lastStartTime = 0;
+            for (int i = 0; i < maxPanels; i++)
+            {
+                VideoFileNameText[i].color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+                lastStartTime = 0;
+            }
         }
     }
 
@@ -79,7 +86,7 @@ public class VideoWatcher : MonoBehaviour
     public void ClickToStart() // triggered by the ClickToStart button
     {
         SetupVideoList();
-        for (int i = 0; i < VideoPanel.Count; i++)
+        for (int i = 0; i < maxPanels; i++)
         {
             // TODO: Enable this!
             var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
