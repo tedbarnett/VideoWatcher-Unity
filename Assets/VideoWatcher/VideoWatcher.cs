@@ -25,9 +25,12 @@ public class VideoWatcher : MonoBehaviour
 
     void Start()
     {
-        videoFileFolderPath = videoFileFolderPathWindows;
+        videoFileFolderPath = Application.streamingAssetsPath + "/";
         #if UNITY_STANDALONE_OSX
-            videoFileFolderPath = videoFileFolderPathMac;
+                //videoFileFolderPath = videoFileFolderPathMac;
+        #endif
+        #if UNITY_STANDALONE_Windows
+                videoFileFolderPath = videoFileFolderPathWindows;
         #endif
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
@@ -37,14 +40,14 @@ public class VideoWatcher : MonoBehaviour
 
         for (int i = 0; i < maxPanels; i++)
         {
-            int closureIndex = i; // prevents the closure problem!
+            int closureIndex = i; // prevents the closure problem!  TODO: Test without closureIndex.  Not needed?
             var VideoFileNameTextTEMP = VideoPanel[closureIndex].gameObject.GetComponentInChildren<TextMeshProUGUI>();
             VideoFileNameText.Add(VideoFileNameTextTEMP);
 
             var videoPlayer = VideoPanel[closureIndex].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             videoPlayer.loopPointReached += EndReached;
             var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>();
-            Debug.Log("closureIndex = " + closureIndex + ", currentButton = " + currentButton);
+            //Debug.Log("closureIndex = " + closureIndex + ", currentButton = " + currentButton);
             currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
 
         }
@@ -69,7 +72,7 @@ public class VideoWatcher : MonoBehaviour
     {
         VideoFileNames = new List<string>();
         DirectoryInfo dir = new DirectoryInfo(videoFileFolderPath);
-        FileInfo[] info = dir.GetFiles("*.*"); // TODO: Read from iCloud folder?
+        FileInfo[] info = dir.GetFiles("*.*"); // TODO: Read from Dropbox or iCloud folder?
 
         foreach (FileInfo f in info)
         {
@@ -81,6 +84,11 @@ public class VideoWatcher : MonoBehaviour
             }
         }
         Debug.Log("Total # videos = " + VideoFileNames.Count);
+
+        if (VideoFileNames.Count == 0)
+        {
+            Debug.Log("No files found in Directory"); // TODO: Ask for new file directory location?
+        } 
     }
 
     public void ClickToStart() // triggered by the ClickToStart button
@@ -105,7 +113,6 @@ public class VideoWatcher : MonoBehaviour
 
     public void PlayNextVideoByVP(UnityEngine.Video.VideoPlayer vp)
     {
-        Debug.Log("In PlayNextVideoByVP, videoPlayer.name = " + vp.name);
         GetNextVideo();
         vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
         //TODO: If video is longer than 30 secs, start at random point
