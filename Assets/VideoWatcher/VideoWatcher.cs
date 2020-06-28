@@ -38,11 +38,10 @@ public class VideoWatcher : MonoBehaviour
             VideoFileNameText.Add(VideoFileNameTextTEMP);
 
             var videoPlayer = VideoPanel[closureIndex].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            //TODO ADD BACK: videoPlayer.loopPointReached += EndReached;
+            videoPlayer.loopPointReached += EndReached;
             var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>();
             Debug.Log("closureIndex = " + closureIndex + ", currentButton = " + currentButton);
             currentButton.onClick.AddListener(() => { PlayNextVideoByIndex(closureIndex); });
-            //currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(closureIndex); }); //TODO: NOT working!  Always = 5!
 
         }
         // TODO: Enable filename to appear on mouse-over
@@ -123,7 +122,7 @@ public class VideoWatcher : MonoBehaviour
 
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         //Debug.Log("VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
-        currentFileNameText.text = VideoFileNames[currentVideo]; //TODO: assign to correct panel!
+        currentFileNameText.text = VideoFileNames[currentVideo];
 
         lastStartTime = Time.time;
         currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
@@ -138,7 +137,7 @@ public class VideoWatcher : MonoBehaviour
 
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         //Debug.Log("VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
-        currentFileNameText.text = VideoFileNames[currentVideo]; //TODO: assign to correct panel!
+        currentFileNameText.text = VideoFileNames[currentVideo];
 
         lastStartTime = Time.time;
         currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
