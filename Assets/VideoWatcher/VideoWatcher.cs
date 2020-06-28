@@ -7,7 +7,9 @@ using TMPro;
 
 public class VideoWatcher : MonoBehaviour
 {
-    public string videoFileFolderPath;
+    private string videoFileFolderPath;
+    public string videoFileFolderPathMac = "////Users/tedbarnett/Dropbox (barnettlabs)/Videos/Ted Videos/";
+    public string videoFileFolderPathWindows;
     public GameObject startupPanel; // hide after loading
     public GameObject videoPanels; // show after loading
     public List<GameObject> VideoPanel; // a list of n videoPanels (4, 6, or whatever can be displayed)
@@ -22,21 +24,52 @@ public class VideoWatcher : MonoBehaviour
 
     void Start()
     {
+        videoFileFolderPath = videoFileFolderPathWindows;
+        #if UNITY_STANDALONE_OSX
+            videoFileFolderPath = videoFileFolderPathMac;
+        #endif
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
-        //var videoPlayer = VideoPanel[0].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-        //    videoPlayer.loopPointReached += EndReached;
+
         for(int i = 0; i < VideoPanel.Count; i++)
         {
-            Debug.Log(" i = " + i);
-            var VideoFileNameTextTEMP = VideoPanel[i].gameObject.GetComponentInChildren<TextMeshProUGUI>();
+            int closureIndex = i; // prevents the closure problem!
+            var VideoFileNameTextTEMP = VideoPanel[closureIndex].gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
             VideoFileNameText.Add(VideoFileNameTextTEMP);
 
-            var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            videoPlayer.loopPointReached += EndReached;
+            var videoPlayer = VideoPanel[closureIndex].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            //TODO ADD BACK: videoPlayer.loopPointReached += EndReached;
+            var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>();
 
-            VideoPanel[i].GetComponentInChildren<Button>().onClick.AddListener(() => PlayNextVideoByVP(videoPlayer));
+            //VideoPanel[closureIndex].GetComponentInChildren<Button>().onClick.AddListener(() => PlayNextVideoByIndex(closureIndex));
+            VideoPanel[closureIndex].GetComponentInChildren<Button>().onClick.AddListener(delegate { PlayNextVideoByIndex(closureIndex); });
+
+            //switch (closureIndex)
+            //{
+
+            //    case 0:
+            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(0); });
+            //        Debug.Log("setup button 0");
+            //        break;
+            //    case 1:
+            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(1); });
+            //        Debug.Log("setup button 1");
+            //        break;
+            //    case 2:
+            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(2); });
+            //        break;
+            //    case 3:
+            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(3); });
+            //        break;
+            //    case 4:
+            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(4); });
+            //        break;
+            //    case 5:
+            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(5); });
+            //        break;
+            //}
+            //VideoPanel[i].GetComponentInChildren<Button>().onClick.AddListener(delegate { PlayNextVideoByIndex(i); });
 
         }
         // TODO: Enable filename to appear on mouse-over
@@ -105,14 +138,33 @@ public class VideoWatcher : MonoBehaviour
         ShowName(panelID);
     }
 
-    public void PlayNextVideoByVP(UnityEngine.Video.VideoPlayer vp)
+    public void PlayNextVideoByIndex(int i)
     {
+        Debug.Log("In PlayNextVideoByIndex, i = " + i);
+        var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+
+        Debug.Log("In PlayNextVideoByIndex, and videoPlayer.name = " + vp.name);
         GetNextVideo();
         vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
         vp.Play();
 
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        Debug.Log("VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
+        //Debug.Log("VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
+        currentFileNameText.text = VideoFileNames[currentVideo]; //TODO: assign to correct panel!
+
+        lastStartTime = Time.time;
+        currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
+    }
+
+    public void PlayNextVideoByVP(UnityEngine.Video.VideoPlayer vp)
+    {
+        Debug.Log("In PlayNextVideoByVP, videoPlayer.name = " + vp.name);
+        GetNextVideo();
+        vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
+        vp.Play();
+
+        TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        //Debug.Log("VideoFileNames[currentVideo] = " + VideoFileNames[currentVideo]);
         currentFileNameText.text = VideoFileNames[currentVideo]; //TODO: assign to correct panel!
 
         lastStartTime = Time.time;
