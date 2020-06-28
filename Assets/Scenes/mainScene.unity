@@ -496,6 +496,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Next Video Button (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8318791652265317840, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_Texture
@@ -1091,6 +1101,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Next Video Button (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8318791652265317840, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_Texture
@@ -1352,6 +1372,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Next Video Button (0)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0, type: 3}
@@ -1656,6 +1681,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Next Video Button (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8318791652265317840, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
@@ -1977,6 +2012,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Next Video Button (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8318791652265317840, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
@@ -2315,6 +2360,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_Name
+      value: Next Video Button (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7290347251487219059, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8318791652265317840, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}

@@ -35,41 +35,14 @@ public class VideoWatcher : MonoBehaviour
         {
             int closureIndex = i; // prevents the closure problem!
             var VideoFileNameTextTEMP = VideoPanel[closureIndex].gameObject.GetComponentInChildren<TextMeshProUGUI>();
-
             VideoFileNameText.Add(VideoFileNameTextTEMP);
 
             var videoPlayer = VideoPanel[closureIndex].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             //TODO ADD BACK: videoPlayer.loopPointReached += EndReached;
             var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>();
-
-            //VideoPanel[closureIndex].GetComponentInChildren<Button>().onClick.AddListener(() => PlayNextVideoByIndex(closureIndex));
-            VideoPanel[closureIndex].GetComponentInChildren<Button>().onClick.AddListener(delegate { PlayNextVideoByIndex(closureIndex); });
-
-            //switch (closureIndex)
-            //{
-
-            //    case 0:
-            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(0); });
-            //        Debug.Log("setup button 0");
-            //        break;
-            //    case 1:
-            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(1); });
-            //        Debug.Log("setup button 1");
-            //        break;
-            //    case 2:
-            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(2); });
-            //        break;
-            //    case 3:
-            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(3); });
-            //        break;
-            //    case 4:
-            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(4); });
-            //        break;
-            //    case 5:
-            //        currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(5); });
-            //        break;
-            //}
-            //VideoPanel[i].GetComponentInChildren<Button>().onClick.AddListener(delegate { PlayNextVideoByIndex(i); });
+            Debug.Log("closureIndex = " + closureIndex + ", currentButton = " + currentButton);
+            currentButton.onClick.AddListener(() => { PlayNextVideoByIndex(closureIndex); });
+            //currentButton.onClick.AddListener(delegate { PlayNextVideoByIndex(closureIndex); }); //TODO: NOT working!  Always = 5!
 
         }
         // TODO: Enable filename to appear on mouse-over
