@@ -5,7 +5,7 @@ VideoWatcher is a desktop (Mac and PC) app that will randomly play video files f
 
 Like being a TV producer for your own life.
 
-![screenshot](https://github.com/tedbarnett/VideoPlayer/blob/master/VideoWatcher%20screenshot.png)
+![screenshot](https://github.com/tedbarnett/VideoPlayer/blob/main/VideoWatcher%20screenshot.png)
 
 Next steps:
 * Allow "favoriting" of videos: build a favorites playlist
