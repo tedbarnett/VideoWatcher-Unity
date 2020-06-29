@@ -4,6 +4,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
+using System.Xml.Schema;
 
 public class VideoWatcher : MonoBehaviour
 {
@@ -25,16 +27,24 @@ public class VideoWatcher : MonoBehaviour
     private bool awaitingClick = true;
     private float launchedTime;
     public float secondsToAutoStart = 10.0f;
+    public float skipVideosShorterThanSecs = 0.0f;
+    public float longVideoLengthMinimum = 30.0f; // if video is longer than this minimum, start at a random frame
 
 
     void Start()
     {
         videoFileFolderPath = Application.streamingAssetsPath + "/";
         #if UNITY_STANDALONE_OSX
-                //videoFileFolderPath = videoFileFolderPathMac;
+            videoFileFolderPath = videoFileFolderPathMac;
+        #endif
+        #if UNITY_EDITOR_OSX
+            videoFileFolderPath = videoFileFolderPathMac;
         #endif
         #if UNITY_STANDALONE_Windows
-                videoFileFolderPath = videoFileFolderPathWindows;
+            videoFileFolderPath = videoFileFolderPathWindows;
+        #endif
+        #if UNITY_EDITOR_WIN
+            videoFileFolderPath = videoFileFolderPathWindows;
         #endif
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
@@ -133,29 +143,54 @@ public class VideoWatcher : MonoBehaviour
         //TODO: If video is longer than 30 secs, start at random point
         vp.prepareCompleted += videoIsPrepared;
         vp.Prepare();
-        
     }
 
     void videoIsPrepared(UnityEngine.Video.VideoPlayer vp)
     {
 
-        float videoLength = (float)vp.length; 
+        float videoLength = (float)vp.length;
+        if(videoLength > longVideoLengthMinimum)
+        {
+            vp.frame = Mathf.FloorToInt(vp.frameCount * Random.Range(0.0f, 1.0f));
+        }
+
         int min = Mathf.FloorToInt(videoLength / 60);
         int sec = Mathf.FloorToInt(videoLength % 60);
         string videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
 
         // Set video name, without extension
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        string fileNameLessExtension = VideoFileNames[currentVideo];
-        int fileExtPos = fileNameLessExtension.LastIndexOf(".");
-        if (fileExtPos >= 0)
-            fileNameLessExtension = fileNameLessExtension.Substring(0, fileExtPos);
 
-        currentFileNameText.text = fileNameLessExtension + " <color=#C1C1C1>(" + videoLengthString + ")</color>";
+
+        currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + " <color=#C1C1C1>(" + videoLengthString + ")</color>";
 
         lastStartTime = Time.time;
         currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
         vp.Play();
+    }
+
+    public string makeNameString(string fileName)
+    {
+        string newFileName = fileName;
+        string dateString = "date unknown";
+        int fileExtPos = newFileName.LastIndexOf(".");
+        if (fileExtPos >= 0) 
+            newFileName = newFileName.Substring(0, fileExtPos);
+        if (newFileName.Length > 10)
+        {
+            dateString = newFileName.Substring(0, 10);
+            Debug.Log("dateString: " + dateString);
+            Debug.Log("DATE: " + dateString.Substring(0, 4) + "/" + dateString.Substring(6, 2) + "/" + dateString.Substring(8, 2));
+            if ((dateString.Substring(0, 4).All(char.IsDigit)) && (dateString.Substring(6, 2).All(char.IsDigit)) && (dateString.Substring(8, 2).All(char.IsDigit))) // if name has date leading in format "yyyy-mm-dd", then get date...
+            {
+                newFileName = newFileName.Substring(11); // strip off leading date value
+                char[] charsToTrim = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', ' ' }; // strip off leading spaces or digits from name
+                newFileName = newFileName.Trim(charsToTrim);
+            }
+        }
+
+        newFileName = newFileName + "\n" + dateString;
+        return newFileName;
     }
 
 

@@ -2659,7 +2659,7 @@ PrefabInstance:
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: showFilenameTimeSecs
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
