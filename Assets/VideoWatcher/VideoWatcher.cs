@@ -34,18 +34,21 @@ public class VideoWatcher : MonoBehaviour
     void Start()
     {
         videoFileFolderPath = Application.streamingAssetsPath + "/";
-        #if UNITY_STANDALONE_OSX
+        videoFileFolderPath = videoFileFolderPathWindows; // TODO: Temporary -- test was failing on Windows so forced this in
+
+
+#if UNITY_STANDALONE_OSX
             videoFileFolderPath = videoFileFolderPathMac;
-        #endif
-        #if UNITY_EDITOR_OSX
+#endif
+#if UNITY_EDITOR_OSX
             videoFileFolderPath = videoFileFolderPathMac;
-        #endif
-        #if UNITY_STANDALONE_Windows
+#endif
+#if UNITY_STANDALONE_Windows
             videoFileFolderPath = videoFileFolderPathWindows;
-        #endif
-        #if UNITY_EDITOR_WIN
+#endif
+#if UNITY_EDITOR_WIN
             videoFileFolderPath = videoFileFolderPathWindows;
-        #endif
+#endif
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
         launchedTime = Time.time;
@@ -162,7 +165,7 @@ public class VideoWatcher : MonoBehaviour
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
 
-        currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + " <color=#C1C1C1>(" + videoLengthString + ")</color>";
+        currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + " <color=#636363>(" + videoLengthString + ")</color>";
 
         lastStartTime = Time.time;
         currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
@@ -175,21 +178,21 @@ public class VideoWatcher : MonoBehaviour
         string dateString = "date unknown";
         int fileExtPos = newFileName.LastIndexOf(".");
         if (fileExtPos >= 0) 
-            newFileName = newFileName.Substring(0, fileExtPos);
+            //newFileName = newFileName.Substring(0, fileExtPos);
         if (newFileName.Length > 10)
         {
             dateString = newFileName.Substring(0, 10);
-            Debug.Log("dateString: " + dateString);
-            Debug.Log("DATE: " + dateString.Substring(0, 4) + "/" + dateString.Substring(6, 2) + "/" + dateString.Substring(8, 2));
-            if ((dateString.Substring(0, 4).All(char.IsDigit)) && (dateString.Substring(6, 2).All(char.IsDigit)) && (dateString.Substring(8, 2).All(char.IsDigit))) // if name has date leading in format "yyyy-mm-dd", then get date...
-            {
-                newFileName = newFileName.Substring(11); // strip off leading date value
-                char[] charsToTrim = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', ' ' }; // strip off leading spaces or digits from name
-                newFileName = newFileName.Trim(charsToTrim);
-            }
+            //Debug.Log("dateString: " + dateString);
+            //Debug.Log("DATE: " + dateString.Substring(0, 4) + "/" + dateString.Substring(5, 2) + "/" + dateString.Substring(8, 2));
+            //if ((dateString.Substring(0, 4).All(char.IsDigit)) && (dateString.Substring(5, 2).All(char.IsDigit)) && (dateString.Substring(8, 2).All(char.IsDigit))) // if name has date leading in format "yyyy-mm-dd", then get date...
+            //{
+            //    newFileName = newFileName.Substring(11); // strip off leading date value
+            //    char[] charsToTrim = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', ' ' }; // strip off leading spaces or digits from name
+            //    newFileName = newFileName.Trim(charsToTrim);
+            //}
         }
 
-        newFileName = newFileName + "\n" + dateString;
+        newFileName = newFileName + "\n" + "<color=#636363>" + dateString + "</color>";
         return newFileName;
     }
 

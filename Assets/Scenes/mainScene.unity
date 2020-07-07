@@ -2649,7 +2649,7 @@ PrefabInstance:
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: videoFileFolderPathWindows
-      value: D:\Dropbox (barnettlabs)\Videos\Ted Videos\
+      value: E:\Dropbox (barnettlabs)\Videos\Ted Videos\
       objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
