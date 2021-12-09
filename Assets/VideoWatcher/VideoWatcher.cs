@@ -34,8 +34,6 @@ public class VideoWatcher : MonoBehaviour
     void Start()
     {
         videoFileFolderPath = Application.streamingAssetsPath + "/";
-        videoFileFolderPath = videoFileFolderPathWindows; // TODO: Temporary -- test was failing on Windows so forced this in
-
 
 #if UNITY_STANDALONE_OSX
             videoFileFolderPath = videoFileFolderPathMac;
@@ -47,8 +45,11 @@ public class VideoWatcher : MonoBehaviour
             videoFileFolderPath = videoFileFolderPathWindows;
 #endif
 #if UNITY_EDITOR_WIN
-            videoFileFolderPath = videoFileFolderPathWindows;
+        videoFileFolderPath = videoFileFolderPathWindows;
+
+        videoFileFolderPath = videoFileFolderPathWindows; // TODO: Temporary -- test was failing on Windows so forced this in
 #endif
+
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
         launchedTime = Time.time;
