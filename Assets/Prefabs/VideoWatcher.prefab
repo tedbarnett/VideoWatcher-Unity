@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2476891e8f69d487fac57a61a591162b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoFileFolderPath: ////Users/tedbarnett/Dropbox (barnettlabs)/Videos/Ted Videos/
+  videoFileFolderPathMac: ////Users/tedbarnett/Dropbox (barnettlabs)/Videos/Ted Videos/
+  videoFileFolderPathWindows: E:\Dropbox (barnettlabs)\Videos\Ted Videos\
   startupPanel: {fileID: 0}
   videoPanels: {fileID: 0}
   VideoPanel:
@@ -51,10 +52,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  VideoFileNameText:
   - {fileID: 0}
+  - {fileID: 0}
+  VideoFileNameText: []
   ValidVideoExtensions:
   - .mp4
   - .m4v
   - .mov
-  showFilenameTimeSecs: 10
+  - .avi
+  AutoLaunchCountdownText: {fileID: 0}
+  showFilenameTimeSecs: 5
+  secondsToAutoStart: 5
+  skipVideosShorterThanSecs: 0
+  longVideoLengthMinimum: 30

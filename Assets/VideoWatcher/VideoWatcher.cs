@@ -19,7 +19,6 @@ public class VideoWatcher : MonoBehaviour
     public List<string> ValidVideoExtensions;
     public Text AutoLaunchCountdownText;
 
-    private List<string> VideoFileNames;
     private int currentVideo = 0;
     public float showFilenameTimeSecs = 3;
     private float lastStartTime = 0;
@@ -29,6 +28,7 @@ public class VideoWatcher : MonoBehaviour
     public float secondsToAutoStart = 10.0f;
     public float skipVideosShorterThanSecs = 0.0f;
     public float longVideoLengthMinimum = 30.0f; // if video is longer than this minimum, start at a random frame
+    public List<string> VideoFileNames;
 
 
     void Start()
@@ -57,18 +57,17 @@ public class VideoWatcher : MonoBehaviour
 
         for (int i = 0; i < maxPanels; i++)
         {
-            int closureIndex = i; // prevents the closure problem!  TODO: Test without closureIndex.  Not needed?
-            var VideoFileNameTextTEMP = VideoPanel[closureIndex].gameObject.GetComponentInChildren<TextMeshProUGUI>();
+    //        int closureIndex = i; // prevents the closure problem!  TODO: Test without closureIndex.  Not needed?
+            var VideoFileNameTextTEMP = VideoPanel[i].gameObject.GetComponentInChildren<TextMeshProUGUI>();
             VideoFileNameText.Add(VideoFileNameTextTEMP);
 
-            var videoPlayer = VideoPanel[closureIndex].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             videoPlayer.loopPointReached += EndReached;
-            var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
-      //      currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
+            var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
+      currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
       //      currentButton.onClick.AddListener(() => { ToggleVolume(videoPlayer); });
       //      currentButton.onClick.AddListener(() => { JumpToFrame(videoPlayer, 0.5f); });
-                currentButton.onClick.AddListener(() => { PlayPause(videoPlayer); });
-
+      //      currentButton.onClick.AddListener(() => { PlayPause(videoPlayer); });
       //        Rather than add a listener here, this button click will bring up the "Controls Panel".  Look in the Inspector (for the Video Panel prefab)
 
 
@@ -138,11 +137,7 @@ public class VideoWatcher : MonoBehaviour
         videoPanels.SetActive(true);
     }
 
-    public void GetNextVideo()
-    {
-        currentVideo = Random.Range(0, VideoFileNames.Count); // Choose next video at random
-        lastStartTime = Time.time;
-    }
+
 
     public void ToggleVolume(UnityEngine.Video.VideoPlayer vp)
     {
@@ -169,15 +164,29 @@ public class VideoWatcher : MonoBehaviour
         {
             vp.Play();
         }
-    }
 
+    }
+    public void PauseVideo(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Pause();
+    }
+    public void PlayVideo(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Play();
+    }
     public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
     {
 
             var newFrame = vp.frameCount * percentOfClip;
             vp.frame = (long)newFrame;
     }
-
+    public void GetNextVideo()
+    {
+        currentVideo = Random.Range(0, VideoFileNames.Count - 1); // Choose next video at random
+        Debug.Log("VideoFileNames.Count: " + VideoFileNames.Count + ", currentVideo: " + currentVideo);
+        Debug.Log("VideoFileNames[1]: " + VideoFileNames[1]);
+        lastStartTime = Time.time;
+    }
     public void PlayNextVideoByVP(UnityEngine.Video.VideoPlayer vp)
     {
         GetNextVideo();
