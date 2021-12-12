@@ -122,8 +122,6 @@ public class VideoWatcher : MonoBehaviour
         videoPanels.SetActive(true);
     }
 
-
-
     public void ToggleVolume(UnityEngine.Video.VideoPlayer vp)
     {
         // change volume for a specific video panel (ie. the one you are hovering over)
@@ -135,27 +133,15 @@ public class VideoWatcher : MonoBehaviour
         {
             vp.SetDirectAudioVolume(0, 1.0f);
         }
-
-
     }
-    
-    public void PlayPause(UnityEngine.Video.VideoPlayer vp)
-    {
-        if (vp.isPlaying)
-        {
-            vp.Pause();
-        }
-        else
-        {
-            vp.Play();
-        }
 
-    }
-    public void PauseVideo(UnityEngine.Video.VideoPlayer vp)
+    public void ButtonEnter(UnityEngine.Video.VideoPlayer vp)
     {
         vp.Pause();
+        ShowVideoName(vp);
     }
-    public void PlayVideo(UnityEngine.Video.VideoPlayer vp)
+
+    public void ButtonExit(UnityEngine.Video.VideoPlayer vp)
     {
         vp.Play();
     }
@@ -209,6 +195,11 @@ public class VideoWatcher : MonoBehaviour
         lastStartTime = Time.time;
         currentFileNameText.color = new Color32(255, 255, 0, 255); // set text to yellow color to make it visible (change this to on-hover)
         vp.Play();
+    }
+
+    public void ShowVideoName(UnityEngine.Video.VideoPlayer vp)
+    {
+        Debug.Log("video is " + vp);
     }
 
     public string makeNameString(string fileName)
