@@ -30,7 +30,6 @@ public class VideoWatcher : MonoBehaviour
     public float longVideoLengthMinimum = 30.0f; // if video is longer than this minimum, start at a random frame
     private List<string> VideoFileNames;
 
-
     void Start()
     {
         videoFileFolderPath = Application.streamingAssetsPath + "/";
@@ -39,41 +38,36 @@ public class VideoWatcher : MonoBehaviour
 
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
-        launchedTime = Time.time;
+        //launchedTime = Time.time; // DELETE THIS?
         maxPanels = VideoPanel.Count; //TODO: If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
 
         for (int i = 0; i < maxPanels; i++)
         {
-            var VideoFileNameTextTEMP = VideoPanel[i].gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            VideoFileNameText.Add(VideoFileNameTextTEMP);
+            //var VideoFileNameTextTEMP = VideoPanel[i].gameObject.GetComponentInChildren<TextMeshProUGUI>(); // DELETE THIS?
+            //VideoFileNameText.Add(VideoFileNameTextTEMP); // DELETE THIS?
 
             var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            videoPlayer.loopPointReached += EndReached;
+            videoPlayer.loopPointReached += PlayNextVideoByVP; // when videos end, automatically play another
+
             var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
             currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
-      //      currentButton.onClick.AddListener(() => { ToggleVolume(videoPlayer); });
-      //      currentButton.onClick.AddListener(() => { JumpToFrame(videoPlayer, 0.5f); });
-      //      currentButton.onClick.AddListener(() => { PlayPause(videoPlayer); });
-
-
-            videoPlayer.SetDirectAudioVolume(0, 0.0f);
-
+            videoPlayer.SetDirectAudioVolume(0, 0.0f); // Mute volume
         }
-        // TODO: Enable filename to appear on mouse-over
     }
 
     void Update()
     {
-        // Hide (or fade out) Video filenames after showFilenameTimeSecs 
-        if (lastStartTime != 0 && (Time.time - lastStartTime) > showFilenameTimeSecs)
-        {
-            for (int i = 0; i < maxPanels; i++)
-            {
-                VideoFileNameText[i].color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-                lastStartTime = 0;
-            }
-        }
+        //// Hide (or fade out) Video filenames after showFilenameTimeSecs 
+        //if (lastStartTime != 0 && (Time.time - lastStartTime) > showFilenameTimeSecs)
+        //{
+        //    for (int i = 0; i < maxPanels; i++)
+        //    {
+        //        VideoFileNameText[i].color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        //        lastStartTime = 0;
+        //    }
+        //}
 
+        // TO DO: Delete this waiting period click-to-start thing?  Needed for file loading time?
         if (awaitingClick && (Time.time - launchedTime) > secondsToAutoStart)
             {
             awaitingClick = false;
@@ -90,7 +84,7 @@ public class VideoWatcher : MonoBehaviour
     {
         VideoFileNames = new List<string>();
         DirectoryInfo dir = new DirectoryInfo(videoFileFolderPath);
-        FileInfo[] info = dir.GetFiles("*.*"); // TODO: Read from Dropbox or iCloud folder?
+        FileInfo[] info = dir.GetFiles("*.*"); // TODO: Read from Dropbox or iCloud or Google Drive instead?
 
         foreach (FileInfo f in info)
         {
@@ -101,12 +95,10 @@ public class VideoWatcher : MonoBehaviour
                 VideoFileNames.Add(fileNameString);
             }
         }
+        
         Debug.Log("Total # videos = " + VideoFileNames.Count);
+        if (VideoFileNames.Count == 0) Debug.Log("No files found in Directory"); // TODO: Ask for new file directory location?
 
-        if (VideoFileNames.Count == 0)
-        {
-            Debug.Log("No files found in Directory"); // TODO: Ask for new file directory location?
-        } 
     }
 
     public void ClickToStart() // triggered by the ClickToStart button
@@ -122,34 +114,7 @@ public class VideoWatcher : MonoBehaviour
         videoPanels.SetActive(true);
     }
 
-    public void ToggleVolume(UnityEngine.Video.VideoPlayer vp)
-    {
-        // change volume for a specific video panel (ie. the one you are hovering over)
-        float tempVolume = vp.GetDirectAudioVolume(0);
-        if(tempVolume > 0.0f)
-        {
-            vp.SetDirectAudioVolume(0, 0.0f);
-        } else
-        {
-            vp.SetDirectAudioVolume(0, 1.0f);
-        }
-    }
 
-    public void ButtonEnter(UnityEngine.Video.VideoPlayer vp)
-    {
-        vp.Pause();
-        ShowVideoName(vp);
-    }
-
-    public void ButtonExit(UnityEngine.Video.VideoPlayer vp)
-    {
-        vp.Play();
-    }
-    public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
-    {
-            var newFrame = vp.frameCount * percentOfClip;
-            vp.frame = (long)newFrame;
-    }
     public void GetNextVideo()
     {
         currentVideo = Random.Range(0, VideoFileNames.Count - 1); // Choose next video at random
@@ -193,13 +158,22 @@ public class VideoWatcher : MonoBehaviour
         currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
 
         lastStartTime = Time.time;
-        currentFileNameText.color = new Color32(255, 255, 0, 255); // set text to yellow color to make it visible (change this to on-hover)
+        currentFileNameText.color = new Color32(255, 255, 0, 0); // set text to transparent to hide by default
         vp.Play();
     }
 
-    public void ShowVideoName(UnityEngine.Video.VideoPlayer vp)
+    public void ShowVideoName(UnityEngine.Video.VideoPlayer vp, bool showNameNow)
     {
         Debug.Log("video is " + vp);
+        TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        if (showNameNow)
+        {
+            currentFileNameText.color = new Color32(255, 255, 0, 255); // set text to yellow color to make it visible
+        }
+        else
+        {
+            currentFileNameText.color = new Color32(255, 255, 0, 0); // set text to transparent to hide
+        }
     }
 
     public string makeNameString(string fileName)
@@ -244,14 +218,42 @@ public class VideoWatcher : MonoBehaviour
         return newFileName;
     }
 
+// *****************************************************************************************************************
+
+    public void ToggleVolume(UnityEngine.Video.VideoPlayer vp)
+    {
+        // change volume for a specific video panel (ie. the one you are hovering over)
+        float tempVolume = vp.GetDirectAudioVolume(0);
+        if (tempVolume > 0.0f)
+        {
+            vp.SetDirectAudioVolume(0, 0.0f);
+        }
+        else
+        {
+            vp.SetDirectAudioVolume(0, 1.0f);
+        }
+    }
+
+    public void ButtonEnter(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Pause();
+        ShowVideoName(vp, true);
+    }
+
+    public void ButtonExit(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Play();
+        ShowVideoName(vp, false);
+
+    }
+    public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
+    {
+        var newFrame = vp.frameCount * percentOfClip;
+        vp.frame = (long)newFrame;
+    }
 
     public void ShowControlPanel(UnityEngine.Video.VideoPlayer vp)
     {
         // TBD
-    }
-
-    void EndReached(UnityEngine.Video.VideoPlayer vp)
-    {
-        PlayNextVideoByVP(vp);
     }
 }
