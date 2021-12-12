@@ -46,8 +46,6 @@ public class VideoWatcher : MonoBehaviour
 #endif
 #if UNITY_EDITOR_WIN
         videoFileFolderPath = videoFileFolderPathWindows;
-
-        videoFileFolderPath = videoFileFolderPathWindows; // TODO: Temporary -- test was failing on Windows so forced this in
 #endif
 
         startupPanel.SetActive(true);
@@ -65,9 +63,16 @@ public class VideoWatcher : MonoBehaviour
 
             var videoPlayer = VideoPanel[closureIndex].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             videoPlayer.loopPointReached += EndReached;
-            var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>();
-            //Debug.Log("closureIndex = " + closureIndex + ", currentButton = " + currentButton);
-            currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
+            var currentButton = VideoPanel[closureIndex].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
+      //      currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
+      //      currentButton.onClick.AddListener(() => { ToggleVolume(videoPlayer); });
+      //      currentButton.onClick.AddListener(() => { JumpToFrame(videoPlayer, 0.5f); });
+                currentButton.onClick.AddListener(() => { PlayPause(videoPlayer); });
+
+      //        Rather than add a listener here, this button click will bring up the "Controls Panel".  Look in the Inspector (for the Video Panel prefab)
+
+
+            videoPlayer.SetDirectAudioVolume(0, 0.0f);
 
         }
         // TODO: Enable filename to appear on mouse-over
@@ -125,7 +130,6 @@ public class VideoWatcher : MonoBehaviour
         SetupVideoList();
         for (int i = 0; i < maxPanels; i++)
         {
-            // TODO: Enable this!
             var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             PlayNextVideoByVP(videoPlayer);
         }
@@ -138,6 +142,40 @@ public class VideoWatcher : MonoBehaviour
     {
         currentVideo = Random.Range(0, VideoFileNames.Count); // Choose next video at random
         lastStartTime = Time.time;
+    }
+
+    public void ToggleVolume(UnityEngine.Video.VideoPlayer vp)
+    {
+        // change volume for a specific video panel (ie. the one you are hovering over)
+        float tempVolume = vp.GetDirectAudioVolume(0);
+        if(tempVolume > 0.0f)
+        {
+            vp.SetDirectAudioVolume(0, 0.0f);
+        } else
+        {
+            vp.SetDirectAudioVolume(0, 1.0f);
+        }
+
+
+    }
+    
+    public void PlayPause(UnityEngine.Video.VideoPlayer vp)
+    {
+        if (vp.isPlaying)
+        {
+            vp.Pause();
+        }
+        else
+        {
+            vp.Play();
+        }
+    }
+
+    public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
+    {
+
+            var newFrame = vp.frameCount * percentOfClip;
+            vp.frame = (long)newFrame;
     }
 
     public void PlayNextVideoByVP(UnityEngine.Video.VideoPlayer vp)
@@ -166,7 +204,7 @@ public class VideoWatcher : MonoBehaviour
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
 
-        currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + " <color=#636363>(" + videoLengthString + ")</color>";
+        currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + " (" + videoLengthString + ")";
 
         lastStartTime = Time.time;
         currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
@@ -179,7 +217,7 @@ public class VideoWatcher : MonoBehaviour
         string dateString = "date unknown";
         int fileExtPos = newFileName.LastIndexOf(".");
         if (fileExtPos >= 0) 
-            //newFileName = newFileName.Substring(0, fileExtPos);
+            newFileName = newFileName.Substring(0, fileExtPos);
         if (newFileName.Length > 10)
         {
             dateString = newFileName.Substring(0, 10);
@@ -193,7 +231,8 @@ public class VideoWatcher : MonoBehaviour
             //}
         }
 
-        newFileName = newFileName + "\n" + "<color=#636363>" + dateString + "</color>";
+        //   newFileName = newFileName + "\n" + "<color=#636363>" + dateString + "</color>";
+        //   newFileName = newFileName + "\n" + "<color=#636363>" + dateString + "</color>";
         return newFileName;
     }
 
@@ -207,6 +246,5 @@ public class VideoWatcher : MonoBehaviour
     void EndReached(UnityEngine.Video.VideoPlayer vp)
     {
         PlayNextVideoByVP(vp);
-        
     }
 }
