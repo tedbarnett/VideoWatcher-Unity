@@ -28,47 +28,32 @@ public class VideoWatcher : MonoBehaviour
     public float secondsToAutoStart = 10.0f;
     public float skipVideosShorterThanSecs = 0.0f;
     public float longVideoLengthMinimum = 30.0f; // if video is longer than this minimum, start at a random frame
-    public List<string> VideoFileNames;
+    private List<string> VideoFileNames;
 
 
     void Start()
     {
         videoFileFolderPath = Application.streamingAssetsPath + "/";
-
-#if UNITY_STANDALONE_OSX
-            videoFileFolderPath = videoFileFolderPathMac;
-#endif
-#if UNITY_EDITOR_OSX
-            videoFileFolderPath = videoFileFolderPathMac;
-#endif
-#if UNITY_STANDALONE_Windows
-            videoFileFolderPath = videoFileFolderPathWindows;
-#endif
-#if UNITY_EDITOR_WIN
-        videoFileFolderPath = videoFileFolderPathWindows;
-#endif
+        videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
 
         startupPanel.SetActive(true);
         videoPanels.SetActive(false);
         launchedTime = Time.time;
-
-
         maxPanels = VideoPanel.Count; //TODO: If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
 
         for (int i = 0; i < maxPanels; i++)
         {
-    //        int closureIndex = i; // prevents the closure problem!  TODO: Test without closureIndex.  Not needed?
             var VideoFileNameTextTEMP = VideoPanel[i].gameObject.GetComponentInChildren<TextMeshProUGUI>();
             VideoFileNameText.Add(VideoFileNameTextTEMP);
 
             var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             videoPlayer.loopPointReached += EndReached;
             var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
-      currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
+            currentButton.onClick.AddListener(() => { PlayNextVideoByVP(videoPlayer); });
       //      currentButton.onClick.AddListener(() => { ToggleVolume(videoPlayer); });
       //      currentButton.onClick.AddListener(() => { JumpToFrame(videoPlayer, 0.5f); });
       //      currentButton.onClick.AddListener(() => { PlayPause(videoPlayer); });
-      //        Rather than add a listener here, this button click will bring up the "Controls Panel".  Look in the Inspector (for the Video Panel prefab)
 
 
             videoPlayer.SetDirectAudioVolume(0, 0.0f);
@@ -176,15 +161,14 @@ public class VideoWatcher : MonoBehaviour
     }
     public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
     {
-
             var newFrame = vp.frameCount * percentOfClip;
             vp.frame = (long)newFrame;
     }
     public void GetNextVideo()
     {
         currentVideo = Random.Range(0, VideoFileNames.Count - 1); // Choose next video at random
-        Debug.Log("VideoFileNames.Count: " + VideoFileNames.Count + ", currentVideo: " + currentVideo);
-        Debug.Log("VideoFileNames[1]: " + VideoFileNames[1]);
+        //currentVideo = 124; // set to a specific video for debugging (i.e. if video format failing)
+        Debug.Log("videofilenames.count: " + VideoFileNames.Count + ", currentVideo: " + currentVideo + ", " + "filename: " + VideoFileNames[currentVideo]);
         lastStartTime = Time.time;
     }
     public void PlayNextVideoByVP(UnityEngine.Video.VideoPlayer vp)
@@ -207,16 +191,23 @@ public class VideoWatcher : MonoBehaviour
 
         int min = Mathf.FloorToInt(videoLength / 60);
         int sec = Mathf.FloorToInt(videoLength % 60);
-        string videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
+        string videoLengthString = "";
+        if (min > 0)
+        {
+            videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
+        }
+        else
+        {
+            videoLengthString = sec.ToString("00") + " secs";
+        }
 
-        // Set video name, without extension
+        // Set video name using makeNameString()
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
-
-        currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + " (" + videoLengthString + ")";
+        currentFileNameText.text = makeNameString(VideoFileNames[currentVideo]) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
 
         lastStartTime = Time.time;
-        currentFileNameText.color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
+        currentFileNameText.color = new Color32(255, 255, 0, 255); // set text to yellow color to make it visible (change this to on-hover)
         vp.Play();
     }
 
@@ -226,30 +217,46 @@ public class VideoWatcher : MonoBehaviour
         string dateString = "date unknown";
         int fileExtPos = newFileName.LastIndexOf(".");
         if (fileExtPos >= 0) 
-            newFileName = newFileName.Substring(0, fileExtPos);
+            newFileName = newFileName.Substring(0, fileExtPos); // strip off the file extension
         if (newFileName.Length > 10)
         {
             dateString = newFileName.Substring(0, 10);
-            //Debug.Log("dateString: " + dateString);
-            //Debug.Log("DATE: " + dateString.Substring(0, 4) + "/" + dateString.Substring(5, 2) + "/" + dateString.Substring(8, 2));
-            //if ((dateString.Substring(0, 4).All(char.IsDigit)) && (dateString.Substring(5, 2).All(char.IsDigit)) && (dateString.Substring(8, 2).All(char.IsDigit))) // if name has date leading in format "yyyy-mm-dd", then get date...
-            //{
-            //    newFileName = newFileName.Substring(11); // strip off leading date value
-            //    char[] charsToTrim = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', ' ' }; // strip off leading spaces or digits from name
-            //    newFileName = newFileName.Trim(charsToTrim);
-            //}
-        }
 
-        //   newFileName = newFileName + "\n" + "<color=#636363>" + dateString + "</color>";
-        //   newFileName = newFileName + "\n" + "<color=#636363>" + dateString + "</color>";
+            string dateText = "";
+            int dateNum;
+            int.TryParse(dateString.Substring(8, 2), out dateNum);
+
+            string[] monthNames = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            int monthNum;
+            int.TryParse(dateString.Substring(5, 2), out monthNum);
+            string monthText;
+            if (monthNum != 0) {
+                if(dateNum == 0) // if month is set but date is 00 (i.e. we knew the month but not the day)
+                {
+                    monthText = monthNames[monthNum - 1].ToString() + " ";
+                    dateText = "";
+                }
+                else // if month and date are valid
+                {
+                    monthText = monthNames[monthNum - 1].ToString() + " ";
+                    dateText = dateNum.ToString() + " ";
+                }
+            } else {
+                monthText = "";
+                dateText = "";
+            };
+
+            //Debug.Log("monthNum = " + monthNum + ", dateNum = " + dateNum);
+            dateString = monthText + dateText + dateString.Substring(0, 4);
+        }
+        newFileName = dateString; // Set name of file to date of movie clip (extracted from front of filename)
         return newFileName;
     }
 
 
-    public void ShowName(int panelID)
+    public void ShowControlPanel(UnityEngine.Video.VideoPlayer vp)
     {
-        lastStartTime = Time.time;
-        VideoFileNameText[0].color = new Color(0.990566f, 0.9850756f, 0.01401742f, 1.0f);
+        // TBD
     }
 
     void EndReached(UnityEngine.Video.VideoPlayer vp)
