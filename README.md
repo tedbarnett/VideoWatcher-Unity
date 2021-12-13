@@ -1,5 +1,5 @@
 # VideoWatcher
-## Watch home videos easily: a Unity 2019 open-source project
+## Watch home videos easily: a Unity 2021 open-source project
 
 VideoWatcher is a desktop (Mac and PC) app that will randomly play video files from any specified folder.  Intended as a way to enjoy large libraries of home videos. Users with 1000+ videos will never likely play them all through.  This app will let users enjoy their videos, several at a time.  By clicking on any video, it jumps to another, randomly-selected video.   
 
