@@ -153,6 +153,7 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- SetVideoNameText ----------------------------------------------------
     void SetVideoNameText(UnityEngine.Video.VideoPlayer vp) // once video URL is loaded, set the currentFileNameText.text with the file name and length
     {
+        return;
         if (firstLoop) return;
         Debug.Log("_____ WHY am I in SetVideoNameText");
         float videoLength = (float)vp.length;
@@ -237,6 +238,7 @@ public class VideoWatcher : MonoBehaviour
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         if (showNameNow)
         {
+            UpdateVideoName(vp);
             currentFileNameText.color = new Color32(255, 255, 0, 255); // set text to yellow color to make it visible
         }
         else
