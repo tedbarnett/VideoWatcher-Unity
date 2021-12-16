@@ -18,6 +18,7 @@ public class VideoWatcher : MonoBehaviour
     public List<TextMeshProUGUI> VideoFileNameText;
     public List<string> ValidVideoExtensions;
     public Text AutoLaunchCountdownText;
+    public string blankVideoFileName;
 
     private int currentVideo = 0;
     public float showFilenameTimeSecs = 3;
@@ -29,65 +30,57 @@ public class VideoWatcher : MonoBehaviour
     public float longVideoLengthMinimum = 30.0f; // if video is longer than this minimum, start at a random frame
     private List<string> VideoFileNames;
     private bool firstLoop = true;
-    private int firstCounter;
-    private int panelIndex;
-    private List<int> panelCurrentVideo; // making a temp array to hold "currentVideo" number for each panel number
+    private int firstLoopCounter = 0;
 
-    // **************************************************** START ****************************************************************
+    //          ****************************************** START ****************************************************************
     void Start()
     {
+        Debug.Log("START: Time.time = " + Time.time);
         videoFileFolderPath = Application.streamingAssetsPath + "/";
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
 
-        startupPanel.SetActive(false); // TODO: Temporary!
+        startupPanel.SetActive(false);
         videoPanels.SetActive(true);
         launchedTime = Time.time;
-        maxPanels = VideoPanel.Count; //TODO: If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
+        maxPanels = VideoPanel.Count; //If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
 
-        panelCurrentVideo = new List<int>();
-        //firstCounter = 0; // will count down before enabling re-write of all names
-
-        for (int i = 0; i < maxPanels; i++)
+        for (int i = 0; i < maxPanels; i++) // set up videoPlayer for each panel
         {
-            var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            videoPlayer.loopPointReached += PlayNextVideo; // when videos end, automatically play another
+            var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            vp.loopPointReached += PlayNextVideo; // when videos end, automatically play another
 
             var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
-            currentButton.onClick.AddListener(() => { ClickedOnVideoPanel(videoPlayer); });
-            videoPlayer.SetDirectAudioVolume(0, 0.0f); // Mute volume
-            panelCurrentVideo.Add(0); // clear out panel numbers
+            currentButton.onClick.AddListener(() => { ClickedOnVideoPanel(vp); });
+            vp.SetDirectAudioVolume(0, 0.0f); // Mute volume
         }
     }
-    // **************************************************** UPDATE ****************************************************************
+    //           ****************************************** UPDATE ****************************************************************
     void Update()
     {
 
-        // TO DO: Delete this waiting period click-to-start thing?
+        // TODO: Delete this waiting period click-to-start thing?
         if (awaitingClick && (Time.time - launchedTime) > secondsToAutoStart)
-            {
+        {
             awaitingClick = false;
             ClickToStart();
-            }
+        }
         if (awaitingClick)
         {
             string timeLeft = Mathf.FloorToInt(secondsToAutoStart + launchedTime - Time.time).ToString();
             AutoLaunchCountdownText.text = timeLeft;
         }
-
-        if(firstLoop && firstCounter >= maxPanels)
-        {
-            // update all panel text
-            Debug.Log("======= Updating panels...");
-            for (int i = 0; i < maxPanels; i++)
-            {
-                var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-                panelIndex = i;
-                UpdateVideoName(videoPlayer);
-            }
-            firstLoop = false;
-        }
     }
+
+    // ---------------------------------------------------- ClickToStart ----------------------------------------------------
+    public void ClickToStart()
+    {
+        SetupVideoList(); // read all file names in the videoFileFolderPath directory into VideoFileNames[]
+
+        startupPanel.SetActive(false);
+        videoPanels.SetActive(true);
+    }
+
     // ---------------------------------------------------- SetupVideoList ----------------------------------------------------
     void SetupVideoList()
     {
@@ -99,130 +92,49 @@ public class VideoWatcher : MonoBehaviour
         {
             string fileNameString = Path.GetFileName(f.ToString());
             string fileExtension = Path.GetExtension(fileNameString).ToLower(); // lowercase extension
-            if (ValidVideoExtensions.Contains(fileExtension))
-            {
-                VideoFileNames.Add(fileNameString);
-            }
-        }    
-        Debug.Log("Total # videos = " + VideoFileNames.Count);
-        if (VideoFileNames.Count == 0) Debug.Log("No files found in Directory");
-
-    }
-    // ---------------------------------------------------- ClickToStart ----------------------------------------------------
-    public void ClickToStart() // triggered by the ClickToStart button
-    {
-        SetupVideoList();
-
-        for (int i = 0; i < maxPanels; i++)
-        {
-            firstCounter = i;
-            Debug.Log("*** in ClickToStart, firstCounter = " + firstCounter);
-
-            var videoPlayer = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-
-            TextMeshProUGUI currentFileNameText = videoPlayer.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            currentFileNameText.text = "Panel #" + i; // clear names to start, later use videoPlayer.url;
-
-            PlayNextVideo(videoPlayer);
+            if ((ValidVideoExtensions.Contains(fileExtension)) && (fileNameString != blankVideoFileName)) VideoFileNames.Add(fileNameString);
         }
-        if (firstLoop) firstCounter++;
+        Debug.Log("Total # videos = " + VideoFileNames.Count);
+        Debug.Log("Counted: Time.time = " + Time.time);
 
-        startupPanel.SetActive(false);
-        videoPanels.SetActive(true);
+        if (VideoFileNames.Count == 0) Debug.Log("No files found in Directory");
     }
     // ---------------------------------------------------- PlayNextVideo ----------------------------------------------------
     public void PlayNextVideo(UnityEngine.Video.VideoPlayer vp)
     {
         currentVideo = Random.Range(0, VideoFileNames.Count - 1); // Choose next video at random
 
-        if (firstCounter < maxPanels) panelCurrentVideo[firstCounter] = currentVideo;
-
-        Debug.Log("  currentVideo: " + currentVideo + ", " + "filename: " + VideoFileNames[currentVideo]);
-
-        if (firstCounter >= maxPanels) { 
-            for (int i = 0; i < maxPanels; i++)
-            {
-                Debug.Log("panelCurrentVideo[" + i + "] = " + panelCurrentVideo[i]);
-            }
-        }
-
         vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
+        if(firstLoop) vp.url = videoFileFolderPath + blankVideoFileName;
         vp.prepareCompleted += SetVideoNameText;
         vp.Prepare();
     }
     // ---------------------------------------------------- SetVideoNameText ----------------------------------------------------
     void SetVideoNameText(UnityEngine.Video.VideoPlayer vp) // once video URL is loaded, set the currentFileNameText.text with the file name and length
     {
-        return;
-        if (firstLoop) return;
-        Debug.Log("_____ WHY am I in SetVideoNameText");
+        TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        if (firstLoop)
+        {
+            currentFileNameText.text = "";
+            vp.Play();
+            firstLoopCounter++;
+            if (firstLoopCounter >= maxPanels) firstLoop = false;
+            return;
+        }
         float videoLength = (float)vp.length;
         string tempVideoName;
-        if(videoLength > longVideoLengthMinimum)
-        {
-            vp.frame = Mathf.FloorToInt(vp.frameCount * Random.Range(0.0f, 1.0f));
-        }
+        if (videoLength > longVideoLengthMinimum) vp.frame = Mathf.FloorToInt(vp.frameCount * Random.Range(0.0f, 1.0f));
 
         int min = Mathf.FloorToInt(videoLength / 60);
         int sec = Mathf.FloorToInt(videoLength % 60);
         string videoLengthString = "";
-        if (min > 0)
-        {
-            videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
-        }
-        else
-        {
-            videoLengthString = sec.ToString("00") + " secs";
-        }
+        if (min > 0) videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
+            else videoLengthString = sec.ToString("00") + " secs";
 
         // Set video name using makeNameString()
-        TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        tempVideoName = VideoFileNames[currentVideo];
-        if (!firstLoop)
-        {
-            currentFileNameText.text = makeNameString(tempVideoName) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
-        }
-        vp.Play();
-    }
-    // ---------------------------------------------------- UpdateVideoName ----------------------------------------------------
-    void UpdateVideoName(UnityEngine.Video.VideoPlayer vp)
-    {
-        float videoLength = (float)vp.length;
-        string tempVideoName;
-        if (videoLength > longVideoLengthMinimum)
-        {
-            vp.frame = Mathf.FloorToInt(vp.frameCount * Random.Range(0.0f, 1.0f));
-        }
-
-        int min = Mathf.FloorToInt(videoLength / 60);
-        int sec = Mathf.FloorToInt(videoLength % 60);
-        string videoLengthString = "";
-        if (min > 0)
-        {
-            videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
-        }
-        else
-        {
-            videoLengthString = sec.ToString("00") + " secs";
-        }
-
-        // Set video name using makeNameString()
-        TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        string vpCurrentText = currentFileNameText.text;
-        Debug.Log("   ---- in UpdateVideoName: firstLoop = " + firstLoop);
-
-        tempVideoName = VideoFileNames[panelCurrentVideo[panelIndex]];
-        currentVideo = panelCurrentVideo[panelIndex];
-        Debug.Log("... panelIndex = " + panelIndex + ", tempVideoName = " + tempVideoName);
-        Debug.Log(" - tempVideoName = " + tempVideoName + ", filename = " + makeNameString(tempVideoName) + " currentVideo = " + currentVideo);
-        Debug.Log(" - vpCurrentText = " + vpCurrentText);
-
-
+        tempVideoName = VideoFileNames[currentVideo]; // lookup full file name via currentVideo
         currentFileNameText.text = makeNameString(tempVideoName) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
-        Debug.Log(" - currentFileNameText.text = " + currentFileNameText.text);
-
-        //currentFileNameText.color = new Color32(255, 255, 0, 0); // set text to transparent to hide by default
-        //vp.Play();
+        vp.Play();
     }
 
     // ---------------------------------------------------- ClickedOnVideoPanel ----------------------------------------------------
@@ -238,7 +150,7 @@ public class VideoWatcher : MonoBehaviour
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         if (showNameNow)
         {
-            UpdateVideoName(vp);
+            SetVideoNameText(vp);
             currentFileNameText.color = new Color32(255, 255, 0, 255); // set text to yellow color to make it visible
         }
         else
@@ -254,7 +166,7 @@ public class VideoWatcher : MonoBehaviour
         string newFileName = fileName;
         string dateString = "date unknown";
         int fileExtPos = newFileName.LastIndexOf(".");
-        if (fileExtPos >= 0) 
+        if (fileExtPos >= 0)
             newFileName = newFileName.Substring(0, fileExtPos); // strip off the file extension
         if (newFileName.Length > 10)
         {
@@ -268,8 +180,9 @@ public class VideoWatcher : MonoBehaviour
             int monthNum;
             int.TryParse(dateString.Substring(5, 2), out monthNum);
             string monthText;
-            if (monthNum != 0) {
-                if(dateNum == 0) // if month is set but date is 00 (i.e. we knew the month but not the day)
+            if (monthNum != 0)
+            {
+                if (dateNum == 0) // if month is set but date is 00 (i.e. we knew the month but not the day)
                 {
                     monthText = monthNames[monthNum - 1].ToString() + " ";
                     dateText = "";
@@ -279,7 +192,9 @@ public class VideoWatcher : MonoBehaviour
                     monthText = monthNames[monthNum - 1].ToString() + " ";
                     dateText = dateNum.ToString() + " ";
                 }
-            } else {
+            }
+            else
+            {
                 monthText = "";
                 dateText = "";
             };
@@ -306,24 +221,26 @@ public class VideoWatcher : MonoBehaviour
             vp.SetDirectAudioVolume(0, 1.0f);
         }
     }
-
+    // ---------------------------------------------------- ButtonEnter ----------------------------------------------------
     public void ButtonEnter(UnityEngine.Video.VideoPlayer vp)
     {
         vp.Pause();
         ShowVideoName(vp, true);
     }
-
+    // ---------------------------------------------------- ButtonExit ----------------------------------------------------
     public void ButtonExit(UnityEngine.Video.VideoPlayer vp)
     {
         vp.Play();
         ShowVideoName(vp, false);
     }
+    // ---------------------------------------------------- JumpToFrame ----------------------------------------------------
+
     public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
     {
         var newFrame = vp.frameCount * percentOfClip;
         vp.frame = (long)newFrame;
     }
-
+    // ---------------------------------------------------- ShowControlPanel ----------------------------------------------------
     public void ShowControlPanel(UnityEngine.Video.VideoPlayer vp)
     {
         // TBD
