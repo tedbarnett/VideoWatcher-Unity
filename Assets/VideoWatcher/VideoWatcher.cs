@@ -50,8 +50,8 @@ public class VideoWatcher : MonoBehaviour
             vp.Stop(); // TODO: Stop vs. Play?
             vp.loopPointReached += PlayNextVideo; // when videos end, automatically play another
 
-            var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
-            currentButton.onClick.AddListener(() => { ClickedOnVideoPanel(vp); });
+            //var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
+            //currentButton.onClick.AddListener(() => { ClickedOnVideoPanel(vp); });
             vp.SetDirectAudioVolume(0, 0.0f); // Mute volume
             vp.url = videoFileFolderPath + blankVideoFileName; // set to blank video
         }
@@ -229,7 +229,8 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- ToggleVolume ----------------------------------------------------
     public void ToggleVolume(UnityEngine.Video.VideoPlayer vp)
     {
-        // change volume for a specific video panel (ie. the one you are hovering over)
+        // toggle mute for this video panel
+
         float tempVolume = vp.GetDirectAudioVolume(0);
         if (tempVolume > 0.0f)
         {
@@ -248,22 +249,27 @@ public class VideoWatcher : MonoBehaviour
         var newFrame = vp.frameCount * percentOfClip;
         vp.frame = (long)newFrame;
     }
-    // ---------------------------------------------------- ShowControlPanel ----------------------------------------------------
-    public void ShowControlPanel(UnityEngine.Video.VideoPlayer vp)
-    {
-        // TBD
-    }
-
 
     // ---------------------------------------------------- ClickedOnVideoPanel ----------------------------------------------------
     public void ClickedOnVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
-        ToggleVolume(vp);
+        //ToggleVolume(vp);
         //vp.Play();
 
     }
 
+    // ---------------------------------------------------- SkipToNextVideo ----------------------------------------------------
+    public void SkipToNextVideo(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Stop();
+        PlayNextVideo(vp);
+
+    }
+
+
     /* TODO List
+     * Try maximizing windows, etc.
+     * Do JumpToFrame for longer videos (i.e. don't start on frame 0)
      * Try instantiating video panels when needed
      * Create and release RenderTextures
      */
