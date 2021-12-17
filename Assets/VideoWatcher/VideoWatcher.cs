@@ -198,13 +198,13 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- ButtonEnter ----------------------------------------------------
     public void ButtonEnter(UnityEngine.Video.VideoPlayer vp)
     {
-        vp.Pause();
+        //vp.Pause();
         //ShowVideoCaption(vp, true);
     }
     // ---------------------------------------------------- ButtonExit ----------------------------------------------------
     public void ButtonExit(UnityEngine.Video.VideoPlayer vp)
     {
-        vp.Play();
+        //vp.Play();
         //ShowVideoCaption(vp, false);
     }
 
@@ -259,7 +259,7 @@ public class VideoWatcher : MonoBehaviour
     public void ClickedOnVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
         ToggleVolume(vp);
-        vp.Play();
+        //vp.Play();
 
     }
 
