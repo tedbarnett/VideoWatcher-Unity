@@ -43,7 +43,7 @@ public class VideoWatcher : MonoBehaviour
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
         maxPanels = VideoPanel.Count; //If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
-
+        //maxPanels = 1; //TODO: Temporary
         for (int i = 0; i < maxPanels; i++) // set up videoPlayer for each panel
         {
             var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
@@ -52,7 +52,8 @@ public class VideoWatcher : MonoBehaviour
 
             //var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
             //currentButton.onClick.AddListener(() => { ClickedOnVideoPanel(vp); });
-            vp.SetDirectAudioVolume(0, 0.0f); // Mute volume
+            //vp.SetDirectAudioVolume(0, 0.0f); // Mute volume
+            vp.SetDirectAudioMute(0, true);
             vp.url = videoFileFolderPath + blankVideoFileName; // set to blank video
         }
         SetupVideoList();
@@ -118,21 +119,26 @@ public class VideoWatcher : MonoBehaviour
             else vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
         vp.prepareCompleted += SetVideoCaption;
         vp.Prepare();
+
     }
     // ---------------------------------------------------- SetVideoCaption ----------------------------------------------------
-    void SetVideoCaption(UnityEngine.Video.VideoPlayer vp) // once video URL is loaded, set the currentFileNameText.text with the file name and length
+    void SetVideoCaption(UnityEngine.Video.VideoPlayer vp) // once video URL is prepared, set the currentFileNameText.text with the file name and length
     {
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        if (firstLoop)
+        //TODO: Make sure audio is muted to avoid "pop" sound?
+        if (firstLoop) // TODO: unnecessary now?
         {
             currentFileNameText.text = "";
-            //vp.Play(); // TODO: need this running or will BeginPlaying take care of this?
             firstLoopCounter++;
             if (firstLoopCounter >= maxPanels) firstLoop = false;
         }
         else
         {
             float videoLength = (float)vp.length;
+            Debug.Log("SETVIDEOCAPTION: videoLength = " + vp.length);
+            Debug.Log("   - vp = " + vp);
+            Debug.Log("   - vp.name = " + vp.name);
+            Debug.Log("   - vp.playbackSpeed = " + vp.playbackSpeed);
             if (videoLength > longVideoLengthMinimum) vp.frame = Mathf.FloorToInt(vp.frameCount * Random.Range(0.0f, 1.0f));
 
             int min = Mathf.FloorToInt(videoLength / 60);
@@ -141,10 +147,9 @@ public class VideoWatcher : MonoBehaviour
             if (min > 0) videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
                 else videoLengthString = sec.ToString("00") + " secs";
             string vpFileName = vp.url;
-            //Debug.Log("videoFileFolderPath = " + videoFileFolderPath); // TODO: Why is this sometimes NULL (after hovering over button)?
+            //Debug.Log("videoFileFolderPath = " + videoFileFolderPath); // TODO: Why is this sometimes NULL
             vpFileName = vpFileName.Replace(videoFileFolderPath, "");
             currentFileNameText.text = makeNameString(vpFileName) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
-            // TODO: don't need this? vp.Play();
         }
     }
 
@@ -230,16 +235,7 @@ public class VideoWatcher : MonoBehaviour
     public void ToggleVolume(UnityEngine.Video.VideoPlayer vp)
     {
         // toggle mute for this video panel
-
-        float tempVolume = vp.GetDirectAudioVolume(0);
-        if (tempVolume > 0.0f)
-        {
-            vp.SetDirectAudioVolume(0, 0.0f);
-        }
-        else
-        {
-            vp.SetDirectAudioVolume(0, 1.0f);
-        }
+        vp.SetDirectAudioMute(0, !vp.GetDirectAudioMute(0));
     }
 
     // ---------------------------------------------------- JumpToFrame ----------------------------------------------------
