@@ -242,9 +242,12 @@ public class VideoWatcher : MonoBehaviour
     public void QuitApplication()
     {
         Application.Quit();
-
     }
-
+    // ---------------------------------------------------- MaximizeVideoPanel ----------------------------------------------------
+    public void MaximizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Pause();
+    }
 
     /* TODO List
      * Try maximizing windows, etc.
