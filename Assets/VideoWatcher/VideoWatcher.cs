@@ -19,6 +19,7 @@ public class VideoWatcher : MonoBehaviour
     public List<string> ValidVideoExtensions;
     public Text AutoLaunchCountdownText;
     public string blankVideoFileName;
+    private List<string> FavoriteVideosList = new List<string>();
 
     private int currentVideo = 0;
     public float showFilenameTimeSecs = 3;
@@ -33,10 +34,18 @@ public class VideoWatcher : MonoBehaviour
     private int firstLoopCounter = 0;
     private GameObject[] itemsToHideAtStart;
     private string videoFileFolderPath;
-    public string pathString;
+
+    public class FavoriteVideo
+    {
+        public string FileName { get; set; }     // name of file, not including path
+        public string Description { get; set; }  // will default to null
+        public float StartPointPct { get; set; } // percent of file length
+        public float EndPointPct { get; set; }   // will set to zero if unknown
+
+    }
 
     // ****************************************** START ****************************************************************
-        void Start()
+    void Start()
     {
         launchedTime = Time.time;
         //videoFileFolderPath = Application.streamingAssetsPath + "/";
@@ -45,6 +54,9 @@ public class VideoWatcher : MonoBehaviour
 
         startupPanel.SetActive(true);
         videoPanels.SetActive(true);
+
+        var favoriteVideosList = new List<FavoriteVideo>();
+
         maxPanels = VideoPanel.Count; //If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
         for (int i = 0; i < maxPanels; i++) // set up videoPlayer for each panel
         {
@@ -228,9 +240,17 @@ public class VideoWatcher : MonoBehaviour
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
 
+
+        // Set up a 2D list per https://stackoverflow.com/questions/665299/are-2-dimensional-lists-possible-in-c
+        float favoriteStartPointPct = (long)vp.frame / (long)vp.frameCount;
+
         string vpFileName = vp.url;
         vpFileName = vpFileName.Replace(videoFileFolderPath, "");
-        Debug.Log("SETFAVORITE: vpFileName = " + vpFileName);
+        FavoriteVideosList.Add(vpFileName);
+        for (int i = 0; i < FavoriteVideosList.Count; i++)
+        {
+            Debug.Log(i + ": " + FavoriteVideosList[i]);
+        }
     }
 
     // ---------------------------------------------------- JumpToFrame ----------------------------------------------------
@@ -279,8 +299,11 @@ public class VideoWatcher : MonoBehaviour
         Destroy(canvasMaximized);
     }
 
+
+
     /* TODO List
      * Try maximizing windows, etc.
+     * Show # of files on launch screen
      * Do JumpToFrame for longer videos (i.e. don't start on frame 0)
      * Make an iPad version
      * Save favorite clips (filename, timeStart, timeEnd, description)
