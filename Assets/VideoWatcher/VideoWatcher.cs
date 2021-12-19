@@ -124,6 +124,7 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- SetVideoCaption ----------------------------------------------------
     void SetVideoCaption(UnityEngine.Video.VideoPlayer vp) // once video URL is prepared, set the currentFileNameText.text with the file name and length
     {
+        vp.Pause(); // required on Mac to allow VideoPlayer to load attributes below
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         //TODO: Make sure audio is muted to avoid "pop" sound?
         if (firstLoop) // TODO: unnecessary now?
@@ -135,10 +136,7 @@ public class VideoWatcher : MonoBehaviour
         else
         {
             float videoLength = (float)vp.length;
-            Debug.Log("SETVIDEOCAPTION: videoLength = " + vp.length);
-            Debug.Log("   - vp = " + vp);
-            Debug.Log("   - vp.name = " + vp.name);
-            Debug.Log("   - vp.playbackSpeed = " + vp.playbackSpeed);
+            Debug.Log("SETVIDEOCAPTION: videoLength = " + vp.length + ", vp.name = " + vp.name);
             if (videoLength > longVideoLengthMinimum) vp.frame = Mathf.FloorToInt(vp.frameCount * Random.Range(0.0f, 1.0f));
 
             int min = Mathf.FloorToInt(videoLength / 60);
@@ -147,10 +145,10 @@ public class VideoWatcher : MonoBehaviour
             if (min > 0) videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
                 else videoLengthString = sec.ToString("00") + " secs";
             string vpFileName = vp.url;
-            //Debug.Log("videoFileFolderPath = " + videoFileFolderPath); // TODO: Why is this sometimes NULL
             vpFileName = vpFileName.Replace(videoFileFolderPath, "");
             currentFileNameText.text = makeNameString(vpFileName) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
         }
+        vp.Play();
     }
 
     // ---------------------------------------------------- makeNameString ----------------------------------------------------
@@ -200,19 +198,6 @@ public class VideoWatcher : MonoBehaviour
         return newFileName;
     }
 
-    // ---------------------------------------------------- ButtonEnter ----------------------------------------------------
-    public void ButtonEnter(UnityEngine.Video.VideoPlayer vp)
-    {
-        //vp.Pause();
-        //ShowVideoCaption(vp, true);
-    }
-    // ---------------------------------------------------- ButtonExit ----------------------------------------------------
-    public void ButtonExit(UnityEngine.Video.VideoPlayer vp)
-    {
-        //vp.Play();
-        //ShowVideoCaption(vp, false);
-    }
-
     // ---------------------------------------------------- ShowVideoCaption ----------------------------------------------------
     public void ShowVideoCaption(UnityEngine.Video.VideoPlayer vp, bool showNameNow)
     {
@@ -244,14 +229,6 @@ public class VideoWatcher : MonoBehaviour
     {
         var newFrame = vp.frameCount * percentOfClip;
         vp.frame = (long)newFrame;
-    }
-
-    // ---------------------------------------------------- ClickedOnVideoPanel ----------------------------------------------------
-    public void ClickedOnVideoPanel(UnityEngine.Video.VideoPlayer vp)
-    {
-        //ToggleVolume(vp);
-        //vp.Play();
-
     }
 
     // ---------------------------------------------------- SkipToNextVideo ----------------------------------------------------
