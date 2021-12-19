@@ -238,6 +238,12 @@ public class VideoWatcher : MonoBehaviour
         PlayNextVideo(vp);
 
     }
+    // ---------------------------------------------------- QuitApplication ----------------------------------------------------
+    public void QuitApplication()
+    {
+        Application.Quit();
+
+    }
 
 
     /* TODO List
