@@ -7,6 +7,7 @@ TagManager:
   - BtnPause
   - BtnPlay
   - CinemaPlane
+  - HideAtStart
   layers:
   - Default
   - TransparentFX

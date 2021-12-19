@@ -9,7 +9,6 @@ using System.Xml.Schema;
 
 public class VideoWatcher : MonoBehaviour
 {
-    private string videoFileFolderPath;
     public string videoFileFolderPathMac = "////Users/tedbarnett/Dropbox (barnettlabs)/Videos/Ted Videos/";
     public string videoFileFolderPathWindows;
     public GameObject startupPanel; // hide after loading
@@ -32,30 +31,35 @@ public class VideoWatcher : MonoBehaviour
     public List<string> VideoFileNames;
     private bool firstLoop = true;
     private int firstLoopCounter = 0;
+    private GameObject[] itemsToHideAtStart;
+    private string videoFileFolderPath;
+    public string pathString;
 
     // ****************************************** START ****************************************************************
-    void Start()
+        void Start()
     {
         launchedTime = Time.time;
-        //Debug.Log("START: launchedTime = " + launchedTime);
-        startupPanel.SetActive(true);
-        videoPanels.SetActive(true);
-
-        videoFileFolderPath = Application.streamingAssetsPath + "/";
+        //videoFileFolderPath = Application.streamingAssetsPath + "/";
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
+
+        startupPanel.SetActive(true);
+        videoPanels.SetActive(true);
         maxPanels = VideoPanel.Count; //If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
         for (int i = 0; i < maxPanels; i++) // set up videoPlayer for each panel
         {
             var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             vp.Stop(); // TODO: Stop vs. Play?
             vp.loopPointReached += PlayNextVideo; // when videos end, automatically play another
-
-            //var currentButton = VideoPanel[i].GetComponentInChildren<Button>(); // finds the first button child and sets currentButton to that
-            //currentButton.onClick.AddListener(() => { ClickedOnVideoPanel(vp); });
-            //vp.SetDirectAudioVolume(0, 0.0f); // Mute volume
             vp.SetDirectAudioMute(0, true);
             vp.url = videoFileFolderPath + blankVideoFileName; // set to blank video
+        }
+        // Hide items tagged "HideAtStart" (e.g. if accidently left on in inspector!)
+        if (itemsToHideAtStart == null)
+            itemsToHideAtStart = GameObject.FindGameObjectsWithTag("HideAtStart");
+        foreach (GameObject hideItem in itemsToHideAtStart)
+        {
+            hideItem.SetActive(false);
         }
         SetupVideoList();
         preparingSetup = true; // starts wait cycle countdown (and covers over setup process)
@@ -107,7 +111,7 @@ public class VideoWatcher : MonoBehaviour
         for (int i = 0; i < maxPanels; i++) // start playing each video panel
         {
             var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            vp.Play(); // start playing each panel TODO: Not needed since playOnWake already?
+            //vp.Play(); // start playing each panel TODO: Not needed since playOnWake already?
         }
     }
 
@@ -217,6 +221,18 @@ public class VideoWatcher : MonoBehaviour
         vp.SetDirectAudioMute(0, !vp.GetDirectAudioMute(0));
     }
 
+    // ---------------------------------------------------- SetFavorite ----------------------------------------------------
+    public void SetFavorite(UnityEngine.Video.VideoPlayer vp)
+    {
+        // I had to reset videoFileFolderPath here locally.  Kept ending up null if I relied on the first definition.
+        videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
+
+        string vpFileName = vp.url;
+        vpFileName = vpFileName.Replace(videoFileFolderPath, "");
+        Debug.Log("SETFAVORITE: vpFileName = " + vpFileName);
+    }
+
     // ---------------------------------------------------- JumpToFrame ----------------------------------------------------
 
     public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
@@ -240,20 +256,35 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- MaximizeVideoPanel ----------------------------------------------------
     public void MaximizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
-        vp.Pause();
-        //for (int i = 0; i < maxPanels; i++) // pause all videos
-        //{
-        //    var videoToPause = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-        //    videoToPause.Pause();
-        //}
-        //canvasOfVideos.SetActive(false);
+        //vp.Pause();
+        for (int i = 0; i < maxPanels; i++) // pause all videos
+        {
+            var videoToPause = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            videoToPause.Pause();
+        }
+        canvasOfVideos.SetActive(false);
         Instantiate(canvasMaximized);
+    }
+
+    // ---------------------------------------------------- MinimizeVideoPanel ----------------------------------------------------
+    public void MinimizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Pause(); // stop the video that is playing on maximized canvas (TODO: is this necessary?)
+        for (int i = 0; i < maxPanels; i++) // Restart (play) all videos
+        {
+            var videoToPause = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            videoToPause.Play();
+        }
+        canvasOfVideos.SetActive(true);
+        Destroy(canvasMaximized);
     }
 
     /* TODO List
      * Try maximizing windows, etc.
      * Do JumpToFrame for longer videos (i.e. don't start on frame 0)
-     * Try instantiating video panels when needed
+     * Make an iPad version
+     * Save favorite clips (filename, timeStart, timeEnd, description)
+     * Instantiate video panels when needed
      * Create and release RenderTextures
      */
 }
