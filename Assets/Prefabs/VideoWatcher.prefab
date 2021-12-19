@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,6 +48,9 @@ MonoBehaviour:
   videoFileFolderPathWindows: E:\Dropbox (barnettlabs)\Videos\Ted Videos\
   startupPanel: {fileID: 0}
   videoPanels: {fileID: 0}
+  canvasOfVideos: {fileID: 0}
+  canvasMaximized: {fileID: 2278759179083854218, guid: 6fa924bb314e349e5b7dcf8e34699061,
+    type: 3}
   VideoPanel:
   - {fileID: 0}
   - {fileID: 0}
@@ -54,14 +58,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  VideoFileNameText: []
   ValidVideoExtensions:
   - .mp4
   - .m4v
   - .mov
   - .avi
   AutoLaunchCountdownText: {fileID: 0}
+  blankVideoFileName: 
   showFilenameTimeSecs: 5
   secondsToAutoStart: 5
   skipVideosShorterThanSecs: 0
   longVideoLengthMinimum: 30
+  VideoFileNames: []

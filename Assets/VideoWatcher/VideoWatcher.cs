@@ -14,6 +14,8 @@ public class VideoWatcher : MonoBehaviour
     public string videoFileFolderPathWindows;
     public GameObject startupPanel; // hide after loading
     public GameObject videoPanels; // show after loading
+    public GameObject canvasOfVideos; // canvas with all videos showing
+    public GameObject canvasMaximized; // canvas for maximized video
     public List<GameObject> VideoPanel; // a list of n videoPanels (4, 6, or whatever can be displayed)
     public List<string> ValidVideoExtensions;
     public Text AutoLaunchCountdownText;
@@ -35,7 +37,7 @@ public class VideoWatcher : MonoBehaviour
     void Start()
     {
         launchedTime = Time.time;
-        Debug.Log("START: launchedTime = " + launchedTime);
+        //Debug.Log("START: launchedTime = " + launchedTime);
         startupPanel.SetActive(true);
         videoPanels.SetActive(true);
 
@@ -43,7 +45,6 @@ public class VideoWatcher : MonoBehaviour
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
         maxPanels = VideoPanel.Count; //If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
-        //maxPanels = 1; //TODO: Temporary
         for (int i = 0; i < maxPanels; i++) // set up videoPlayer for each panel
         {
             var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
@@ -74,7 +75,7 @@ public class VideoWatcher : MonoBehaviour
             if ((ValidVideoExtensions.Contains(fileExtension)) && (fileNameString != blankVideoFileName)) VideoFileNames.Add(fileNameString);
         }
         Debug.Log("Total # videos = " + VideoFileNames.Count);
-        Debug.Log("Finished SetupVideoList: Time.time = " + Time.time);
+        //Debug.Log("Finished SetupVideoList: Time.time = " + Time.time);
 
         if (VideoFileNames.Count == 0) Debug.Log("No files found in Directory");
     }
@@ -136,7 +137,6 @@ public class VideoWatcher : MonoBehaviour
         else
         {
             float videoLength = (float)vp.length;
-            Debug.Log("SETVIDEOCAPTION: videoLength = " + vp.length + ", vp.name = " + vp.name);
             if (videoLength > longVideoLengthMinimum) vp.frame = Mathf.FloorToInt(vp.frameCount * Random.Range(0.0f, 1.0f));
 
             int min = Mathf.FloorToInt(videoLength / 60);
@@ -185,13 +185,7 @@ public class VideoWatcher : MonoBehaviour
                     dateText = dateNum.ToString() + " ";
                 }
             }
-            else
-            {
-                monthText = "";
-                dateText = "";
-            };
-
-            //Debug.Log("monthNum = " + monthNum + ", dateNum = " + dateNum);
+            else monthText = dateText = "";
             dateString = monthText + dateText + dateString.Substring(0, 4);
         }
         newFileName = dateString; // Set name of file to date of movie clip (extracted from front of filename)
@@ -247,6 +241,13 @@ public class VideoWatcher : MonoBehaviour
     public void MaximizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
         vp.Pause();
+        //for (int i = 0; i < maxPanels; i++) // pause all videos
+        //{
+        //    var videoToPause = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+        //    videoToPause.Pause();
+        //}
+        //canvasOfVideos.SetActive(false);
+        Instantiate(canvasMaximized);
     }
 
     /* TODO List

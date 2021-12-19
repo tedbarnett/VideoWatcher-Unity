@@ -2570,6 +2570,21 @@ PrefabInstance:
       objectReference: {fileID: 1164347804}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
+      propertyPath: canvasOfVideos
+      value: 
+      objectReference: {fileID: 339725840}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: standardCanvas
+      value: 
+      objectReference: {fileID: 339725840}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: maximizedCanvas
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
       propertyPath: blankVideoFileName
       value: BLANK_VIDEO.mov
       objectReference: {fileID: 0}
