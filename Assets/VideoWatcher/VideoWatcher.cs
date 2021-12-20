@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿//using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -71,6 +71,9 @@ public class VideoWatcher : MonoBehaviour
         {
             hideItem.SetActive(false);
         }
+        var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
+        canvasMaximized.SetActive(false);
+
         SetupVideoList();
         preparingSetup = true; // starts wait cycle countdown (and covers over setup process)
     }
@@ -112,11 +115,11 @@ public class VideoWatcher : MonoBehaviour
         startupPanel.SetActive(false);
         videoPanels.SetActive(true);
 
-        for (int i = 0; i < maxPanels; i++) // start playing each video panel
-        {
-            var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            //vp.Play(); // start playing each panel TODO: Not needed since playOnWake already?
-        }
+        //for (int i = 0; i < maxPanels; i++) // start playing each video panel
+        //{
+        //    var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+        //    vp.Play(); // start playing each panel TODO: Not needed since playOnWake already?
+        //}
     }
 
 
@@ -285,24 +288,14 @@ public class VideoWatcher : MonoBehaviour
         vp.frame = (long)newFrame;
     }
 
-    // ---------------------------------------------------- SkipToNextVideo ----------------------------------------------------
-    public void SkipToNextVideo(UnityEngine.Video.VideoPlayer vp)
-    {
-        vp.Stop();
-        PlayNextVideo(vp);
 
-    }
-    // ---------------------------------------------------- QuitApplication ----------------------------------------------------
-    public void QuitApplication()
-    {
-        Application.Quit();
-    }
     // ---------------------------------------------------- MaximizeVideoPanel ----------------------------------------------------
     public void MaximizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
         // find all of the Minimized Video Panels and Pause() them
         //if (MinimizedVideoPanels == null)
         MinimizedVideoPanels = GameObject.FindGameObjectsWithTag("MinimizedVideoPanels");
+
         foreach (GameObject smallPanel in MinimizedVideoPanels)
         {
             var smallVP = smallPanel.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
@@ -315,9 +308,13 @@ public class VideoWatcher : MonoBehaviour
         var vpTexture = vp.targetTexture;
         var newVP = canvasMaximized.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
         var newVPRawImage = newVP.GetComponentInChildren<RawImage>();
+        TextMeshProUGUI originalVPFileName = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI newVPFileName = newVP.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+
         newVP.targetTexture = vpTexture;
         newVPRawImage.texture = vpTexture;
-        newVP.frame = vp.frame; // make sure it starts off where the maximized video was?
+        newVP.frame = vp.frame;
+        newVPFileName.text = originalVPFileName.text;
         canvasMaximized.SetActive(true);
     }
 
@@ -343,22 +340,26 @@ public class VideoWatcher : MonoBehaviour
         float newFrameFloat = (scrubSlider.value * (float)vp.frameCount);
         long newFrame = (long)newFrameFloat;
 
-        //Debug.Log("SCRUBVIDEOPOSITION:");
-        //Debug.Log(" - sliderChanged.value = " + sliderChanged.value);
-        //Debug.Log(" - vp.frame = " + vp.frame + ", vp.frameCount = " + vp.frameCount);
-        //Debug.Log(" - currentVideoPosition % = " + currentVideoPosition);
-        //Debug.Log(" - newFrameFloat = " + newFrameFloat);
-        //Debug.Log(" - newFrame = " + newFrame);
-
         vp.frame = newFrame;
+    }
+
+    // ---------------------------------------------------- SkipToNextVideo ----------------------------------------------------
+    public void SkipToNextVideo(UnityEngine.Video.VideoPlayer vp)
+    {
+        vp.Stop();
+        PlayNextVideo(vp);
+
+    }
+    // ---------------------------------------------------- QuitApplication ----------------------------------------------------
+    public void QuitApplication()
+    {
+        Application.Quit();
     }
 
 
 
     /* TODO List
      * 
-     * Reset Favorite heart when new video is loaded
-     * Reset Slider when new video is loaded
      * Fix popping audio during transition
      * Make sure maximized video Favorite and Mute work properly
      * Show file name on maximized version
