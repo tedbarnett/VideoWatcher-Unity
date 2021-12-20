@@ -247,7 +247,6 @@ public class VideoWatcher : MonoBehaviour
         // toggle mute for this video panel
         vp.SetDirectAudioMute(0, !vp.GetDirectAudioMute(0));
         // TODO: Set corresponding "Mute" icon in the minimized version of this video!
-
     }
 
     // ---------------------------------------------------- SetFavorite ----------------------------------------------------
@@ -257,7 +256,6 @@ public class VideoWatcher : MonoBehaviour
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
 
-        // Set up a 2D list per https://stackoverflow.com/questions/665299/are-2-dimensional-lists-possible-in-c
         float favoriteStartPointPct = (float)vp.frame / vp.frameCount;
 
         string vpFileName = vp.url;
@@ -268,7 +266,7 @@ public class VideoWatcher : MonoBehaviour
         FavoriteVideo vpInfo = new FavoriteVideo
         {
             FileName = vpFileName,
-            Description = "(tbd description here)",
+            Description = "(tbd)",
             StartPointPct = favoriteStartPointPct,
             EndPointPct = 0.0f
         };
