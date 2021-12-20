@@ -826,7 +826,7 @@ PrefabInstance:
     - target: {fileID: 921259330712089634, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -61.444458
+      value: -47.555542
       objectReference: {fileID: 0}
     - target: {fileID: 921259330712089634, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
@@ -1046,11 +1046,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1527564963030204396, guid: bec3740caf78e48b8b182a4c96cd2410,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -31.95
-      objectReference: {fileID: 0}
     - target: {fileID: 5302064340249411874, guid: bec3740caf78e48b8b182a4c96cd2410,
         type: 3}
       propertyPath: m_TagString
@@ -1536,7 +1531,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 5, y: 5}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &8485421105854488551
 GameObject:

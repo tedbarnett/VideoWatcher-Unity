@@ -43,7 +43,6 @@ public class VideoWatcher : MonoBehaviour
         public float EndPointPct;   // will set to zero if unknown
 
     }
-    //public List<FavoriteVideo> favoriteVideosList = new List<FavoriteVideo>();
 
     // ****************************************** START ****************************************************************
     void Start()
@@ -224,16 +223,19 @@ public class VideoWatcher : MonoBehaviour
     {
         // toggle mute for this video panel
         vp.SetDirectAudioMute(0, !vp.GetDirectAudioMute(0));
+        // TODO: Set corresponding "Mute" icon in the minimized version of this video!
+
     }
 
     // ---------------------------------------------------- SetFavorite ----------------------------------------------------
     public void SetFavorite(UnityEngine.Video.VideoPlayer vp)
     {
+        // TODO: Set corresponding "Favorite" icon in the minimized version of this video!
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
 
         // Set up a 2D list per https://stackoverflow.com/questions/665299/are-2-dimensional-lists-possible-in-c
-        float favoriteStartPointPct = (long)vp.frame / (long)vp.frameCount;
+        float favoriteStartPointPct = (float)vp.frame / vp.frameCount;
 
         string vpFileName = vp.url;
         vpFileName = vpFileName.Replace(videoFileFolderPath, "");
@@ -241,14 +243,16 @@ public class VideoWatcher : MonoBehaviour
         FavoriteVideo vpInfo = new FavoriteVideo
         {
             FileName = vpFileName,
-            Description = "tbd (from VideoWatcher app)",
+            Description = "(tbd description here)",
             StartPointPct = favoriteStartPointPct,
             EndPointPct = 0.0f
         };
 
-        Debug.Log(vpInfo);
-
-
+        string csvString = '"' + vpInfo.FileName + '"' + "," + '"' + vpInfo.Description + '"' + "," + vpInfo.StartPointPct.ToString() + "," + vpInfo.EndPointPct.ToString();
+        Debug.Log("SETFAVORITE: " + csvString);
+        StreamWriter favoritesFile = new StreamWriter(Application.persistentDataPath + "_favorites2021.csv");
+        favoritesFile.WriteLine(csvString);
+        favoritesFile.Close();
     }
 
     // ---------------------------------------------------- JumpToFrame ----------------------------------------------------
@@ -283,7 +287,6 @@ public class VideoWatcher : MonoBehaviour
             if (smallVP != vp)
             {
                 smallVP.Pause();
-                Debug.Log("smallVP = " + smallVP);
             }
         }
         var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
@@ -319,13 +322,16 @@ public class VideoWatcher : MonoBehaviour
 
 
     /* TODO List
-     * Try maximizing windows, etc.
+     * 
+     * Make sure maximized video Favorite and Mute work properly
+     * Show file name on maximized version
      * Allow user to set video to "loop" (e.g. for short ones)
      * Allow user to jump forward or back on a video
      * Do JumpToFrame for longer videos (i.e. don't start on frame 0)
+     * Save favorite clips (filename, timeStart, timeEnd, description) to persistent storage as CSV
+     * 
+     * LONG TERM:
+     * Instantiate video panels when needed (avoid prefab issues?)
      * Make an iPad version
-     * Save favorite clips (filename, timeStart, timeEnd, description)
-     * Instantiate video panels when needed
-     * Create and release RenderTextures
      */
 }
