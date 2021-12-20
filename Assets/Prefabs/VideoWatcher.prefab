@@ -48,7 +48,8 @@ MonoBehaviour:
   videoFileFolderPathWindows: E:\Dropbox (barnettlabs)\Videos\Ted Videos\
   startupPanel: {fileID: 0}
   videoPanels: {fileID: 0}
-  canvasOfVideos: {fileID: 0}
+  canvasOfVideos: {fileID: 7000221468445176856, guid: bec3740caf78e48b8b182a4c96cd2410,
+    type: 3}
   canvasMaximized: {fileID: 2278759179083854218, guid: 6fa924bb314e349e5b7dcf8e34699061,
     type: 3}
   VideoPanel:
@@ -63,10 +64,10 @@ MonoBehaviour:
   - .m4v
   - .mov
   - .avi
-  AutoLaunchCountdownText: {fileID: 0}
-  blankVideoFileName: 
-  showFilenameTimeSecs: 5
-  secondsToAutoStart: 5
+  LoadingText: {fileID: 0}
+  blankVideoFileName: BLANK_VIDEO.mov
+  showFilenameTimeSecs: 3
+  secondsToAutoStart: 3
   skipVideosShorterThanSecs: 0
   longVideoLengthMinimum: 30
   VideoFileNames: []

@@ -8,6 +8,8 @@ TagManager:
   - BtnPlay
   - CinemaPlane
   - HideAtStart
+  - MinimizedVideoPanels
+  - MaximizedCanvas
   layers:
   - Default
   - TransparentFX

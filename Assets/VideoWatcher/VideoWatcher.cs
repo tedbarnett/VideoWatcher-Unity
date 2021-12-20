@@ -14,10 +14,9 @@ public class VideoWatcher : MonoBehaviour
     public GameObject startupPanel; // hide after loading
     public GameObject videoPanels; // show after loading
     public GameObject canvasOfVideos; // canvas with all videos showing
-    public GameObject canvasMaximized; // canvas for maximized video
     public List<GameObject> VideoPanel; // a list of n videoPanels (4, 6, or whatever can be displayed)
     public List<string> ValidVideoExtensions;
-    public Text AutoLaunchCountdownText;
+    public Text LoadingText;
     public string blankVideoFileName;
     private List<string> FavoriteVideosList = new List<string>();
 
@@ -34,15 +33,17 @@ public class VideoWatcher : MonoBehaviour
     private int firstLoopCounter = 0;
     private GameObject[] itemsToHideAtStart;
     private string videoFileFolderPath;
+    private GameObject[] MinimizedVideoPanels;
 
-    public class FavoriteVideo
+    public struct FavoriteVideo
     {
-        public string FileName { get; set; }     // name of file, not including path
-        public string Description { get; set; }  // will default to null
-        public float StartPointPct { get; set; } // percent of file length
-        public float EndPointPct { get; set; }   // will set to zero if unknown
+        public string FileName;     // name of file, not including path
+        public string Description;  // will default to null
+        public float StartPointPct; // percent of file length
+        public float EndPointPct;   // will set to zero if unknown
 
     }
+    //public List<FavoriteVideo> favoriteVideosList = new List<FavoriteVideo>();
 
     // ****************************************** START ****************************************************************
     void Start()
@@ -54,8 +55,6 @@ public class VideoWatcher : MonoBehaviour
 
         startupPanel.SetActive(true);
         videoPanels.SetActive(true);
-
-        var favoriteVideosList = new List<FavoriteVideo>();
 
         maxPanels = VideoPanel.Count; //If on smaller screen, set maxPanels to a smaller number than VideoPanel.Count
         for (int i = 0; i < maxPanels; i++) // set up videoPlayer for each panel
@@ -90,8 +89,7 @@ public class VideoWatcher : MonoBehaviour
             string fileExtension = Path.GetExtension(fileNameString).ToLower(); // lowercase extension
             if ((ValidVideoExtensions.Contains(fileExtension)) && (fileNameString != blankVideoFileName)) VideoFileNames.Add(fileNameString);
         }
-        Debug.Log("Total # videos = " + VideoFileNames.Count);
-        //Debug.Log("Finished SetupVideoList: Time.time = " + Time.time);
+        LoadingText.text = "Loading " + VideoFileNames.Count.ToString() + " videos...";
 
         if (VideoFileNames.Count == 0) Debug.Log("No files found in Directory");
     }
@@ -105,11 +103,6 @@ public class VideoWatcher : MonoBehaviour
             {
                 preparingSetup = false;
                 BeginPlaying();
-            }
-            else // otherwise continue countdown...
-            {
-                string timeLeft = Mathf.FloorToInt(secondsToAutoStart + launchedTime - Time.time).ToString();
-                AutoLaunchCountdownText.text = timeLeft;
             }
         }
     }
@@ -236,21 +229,26 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- SetFavorite ----------------------------------------------------
     public void SetFavorite(UnityEngine.Video.VideoPlayer vp)
     {
-        // I had to reset videoFileFolderPath here locally.  Kept ending up null if I relied on the first definition.
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
-
 
         // Set up a 2D list per https://stackoverflow.com/questions/665299/are-2-dimensional-lists-possible-in-c
         float favoriteStartPointPct = (long)vp.frame / (long)vp.frameCount;
 
         string vpFileName = vp.url;
         vpFileName = vpFileName.Replace(videoFileFolderPath, "");
-        FavoriteVideosList.Add(vpFileName);
-        for (int i = 0; i < FavoriteVideosList.Count; i++)
+
+        FavoriteVideo vpInfo = new FavoriteVideo
         {
-            Debug.Log(i + ": " + FavoriteVideosList[i]);
-        }
+            FileName = vpFileName,
+            Description = "tbd (from VideoWatcher app)",
+            StartPointPct = favoriteStartPointPct,
+            EndPointPct = 0.0f
+        };
+
+        Debug.Log(vpInfo);
+
+
     }
 
     // ---------------------------------------------------- JumpToFrame ----------------------------------------------------
@@ -276,34 +274,51 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- MaximizeVideoPanel ----------------------------------------------------
     public void MaximizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
-        //vp.Pause();
-        for (int i = 0; i < maxPanels; i++) // pause all videos
+        // find all of the Minimized Video Panels and Pause() them
+        if (MinimizedVideoPanels == null)
+            MinimizedVideoPanels = GameObject.FindGameObjectsWithTag("MinimizedVideoPanels");
+        foreach (GameObject smallPanel in MinimizedVideoPanels)
         {
-            var videoToPause = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            videoToPause.Pause();
+            var smallVP = smallPanel.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            smallVP.Pause();
+            Debug.Log("smallVP = " + smallVP);
         }
-        canvasOfVideos.SetActive(false);
-        Instantiate(canvasMaximized);
+        var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
+        var vpTexture = vp.targetTexture;
+        var newVP = canvasMaximized.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+        var newVPRawImage = newVP.GetComponentInChildren<RawImage>();
+        newVP.targetTexture = vpTexture;
+        newVPRawImage.texture = vpTexture;
+        newVP.frame = vp.frame; // make sure it starts off where the maximized video was?
+        canvasMaximized.SetActive(true);
     }
 
     // ---------------------------------------------------- MinimizeVideoPanel ----------------------------------------------------
     public void MinimizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
-        vp.Pause(); // stop the video that is playing on maximized canvas (TODO: is this necessary?)
-        for (int i = 0; i < maxPanels; i++) // Restart (play) all videos
+        //vp.Pause(); // stop the video that is playing on maximized canvas
+
+        // find all of the Minimized Video Panels and Play() them
+        if (MinimizedVideoPanels == null)
+            MinimizedVideoPanels = GameObject.FindGameObjectsWithTag("MinimizedVideoPanels");
+        foreach (GameObject smallPanel in MinimizedVideoPanels)
         {
-            var videoToPause = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            videoToPause.Play();
+            var smallVP = smallPanel.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            smallVP.Play();
         }
-        canvasOfVideos.SetActive(true);
-        Destroy(canvasMaximized);
+
+        var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
+        canvasMaximized.SetActive(false);
+
+
     }
 
 
 
     /* TODO List
      * Try maximizing windows, etc.
-     * Show # of files on launch screen
+     * Allow user to set video to "loop" (e.g. for short ones)
+     * Allow user to jump forward or back on a video
      * Do JumpToFrame for longer videos (i.e. don't start on frame 0)
      * Make an iPad version
      * Save favorite clips (filename, timeStart, timeEnd, description)
