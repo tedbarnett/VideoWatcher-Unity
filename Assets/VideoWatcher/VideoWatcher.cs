@@ -275,13 +275,16 @@ public class VideoWatcher : MonoBehaviour
     public void MaximizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
         // find all of the Minimized Video Panels and Pause() them
-        if (MinimizedVideoPanels == null)
-            MinimizedVideoPanels = GameObject.FindGameObjectsWithTag("MinimizedVideoPanels");
+        //if (MinimizedVideoPanels == null)
+        MinimizedVideoPanels = GameObject.FindGameObjectsWithTag("MinimizedVideoPanels");
         foreach (GameObject smallPanel in MinimizedVideoPanels)
         {
             var smallVP = smallPanel.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            smallVP.Pause();
-            Debug.Log("smallVP = " + smallVP);
+            if (smallVP != vp)
+            {
+                smallVP.Pause();
+                Debug.Log("smallVP = " + smallVP);
+            }
         }
         var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
         var vpTexture = vp.targetTexture;
