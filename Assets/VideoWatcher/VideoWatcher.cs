@@ -123,6 +123,7 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- PlayNextVideo ----------------------------------------------------
     public void PlayNextVideo(UnityEngine.Video.VideoPlayer vp)
     {
+        // Runs when a video ends: load the next!
         currentVideo = Random.Range(0, VideoFileNames.Count - 1); // Choose next video at random
         if (firstLoop) vp.url = videoFileFolderPath + blankVideoFileName; // use blank video for first set of panels
         else vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
@@ -156,8 +157,27 @@ public class VideoWatcher : MonoBehaviour
             vpFileName = vpFileName.Replace(videoFileFolderPath, "");
             currentFileNameText.text = makeNameString(vpFileName) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
         }
+
         vp.Play();
+        ResetVideoControls(vp);
+
     }
+
+    // ---------------------------------------------------- ResetVideoControls ----------------------------------------------------
+
+    public void ResetVideoControls(UnityEngine.Video.VideoPlayer vp)
+    {
+        var scrubSlider = vp.GetComponentInChildren<Slider>(true); // true means find even if inactive!
+        scrubSlider.value = 0.0f;
+        // reset Favorite "heart"
+        GameObject heartIconON = vp.transform.Find("Favorite is ON").gameObject;
+        heartIconON.SetActive(false); // TODO: Change this if this video HAD been favorited!
+
+        GameObject videoControlPanel = vp.transform.Find("Video Control Panel").gameObject;
+        GameObject heartIconOFF = videoControlPanel.transform.Find("Favorite is OFF").gameObject;
+        heartIconOFF.SetActive(true);
+    }
+
 
     // ---------------------------------------------------- makeNameString ----------------------------------------------------
 
@@ -319,21 +339,18 @@ public class VideoWatcher : MonoBehaviour
     public void ScrubVideoPosition(UnityEngine.Video.VideoPlayer vp)
     {
         // Move video to the frame indicated by the scrubber (% of all frames)
-        var sliderChanged = vp.GetComponentInChildren<Slider>();
-        float newFrameFloat = (sliderChanged.value * (float)vp.frameCount);
+        var scrubSlider = vp.GetComponentInChildren<Slider>();
+        float newFrameFloat = (scrubSlider.value * (float)vp.frameCount);
         long newFrame = (long)newFrameFloat;
-        float currentVideoPosition = (float)vp.frame / vp.frameCount;
 
-
-        Debug.Log("ScrubVideoPosition:");
-        Debug.Log(" - sliderChanged.value = " + sliderChanged.value);
-        Debug.Log(" - vp.frame = " + vp.frame + ", vp.frameCount = " + vp.frameCount);
-        Debug.Log(" - currentVideoPosition % = " + currentVideoPosition);
-        Debug.Log(" - newFrameFloat = " + newFrameFloat);
-        Debug.Log(" - newFrame = " + newFrame);
+        //Debug.Log("SCRUBVIDEOPOSITION:");
+        //Debug.Log(" - sliderChanged.value = " + sliderChanged.value);
+        //Debug.Log(" - vp.frame = " + vp.frame + ", vp.frameCount = " + vp.frameCount);
+        //Debug.Log(" - currentVideoPosition % = " + currentVideoPosition);
+        //Debug.Log(" - newFrameFloat = " + newFrameFloat);
+        //Debug.Log(" - newFrame = " + newFrame);
 
         vp.frame = newFrame;
-        //vp.Play();
     }
 
 
@@ -341,6 +358,7 @@ public class VideoWatcher : MonoBehaviour
     /* TODO List
      * 
      * Reset Favorite heart when new video is loaded
+     * Reset Slider when new video is loaded
      * Fix popping audio during transition
      * Make sure maximized video Favorite and Mute work properly
      * Show file name on maximized version
