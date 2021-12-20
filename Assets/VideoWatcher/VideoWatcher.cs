@@ -239,6 +239,8 @@ public class VideoWatcher : MonoBehaviour
 
         string vpFileName = vp.url;
         vpFileName = vpFileName.Replace(videoFileFolderPath, "");
+        vpFileName = vpFileName.Replace("\"", "\"\""); // deal with quotation marks in file names for CSV
+
 
         FavoriteVideo vpInfo = new FavoriteVideo
         {
@@ -250,7 +252,7 @@ public class VideoWatcher : MonoBehaviour
 
         string csvString = '"' + vpInfo.FileName + '"' + "," + '"' + vpInfo.Description + '"' + "," + vpInfo.StartPointPct.ToString() + "," + vpInfo.EndPointPct.ToString();
         Debug.Log("SETFAVORITE: " + csvString);
-        StreamWriter favoritesFile = new StreamWriter(Application.persistentDataPath + "_favorites2021.csv");
+        StreamWriter favoritesFile = new StreamWriter(Application.persistentDataPath + "_favorites2021.csv", true);
         favoritesFile.WriteLine(csvString);
         favoritesFile.Close();
     }
@@ -323,12 +325,15 @@ public class VideoWatcher : MonoBehaviour
 
     /* TODO List
      * 
+     * TEST: Favorites: escape " or ' characters for CSV (e.g. 2020-12-26 05-17 pm Testing 2.8" LCD touchscreen.mov)
+     * Reset Favorite heart when new video is loaded
+     * Fix popping audio during transition
      * Make sure maximized video Favorite and Mute work properly
      * Show file name on maximized version
+     * Add a slider to each video, showing % played.  Update when hovering?  Or anytime?
      * Allow user to set video to "loop" (e.g. for short ones)
      * Allow user to jump forward or back on a video
      * Do JumpToFrame for longer videos (i.e. don't start on frame 0)
-     * Save favorite clips (filename, timeStart, timeEnd, description) to persistent storage as CSV
      * 
      * LONG TERM:
      * Instantiate video panels when needed (avoid prefab issues?)
