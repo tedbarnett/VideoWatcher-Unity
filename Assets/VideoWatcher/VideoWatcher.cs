@@ -124,8 +124,8 @@ public class VideoWatcher : MonoBehaviour
     public void PlayNextVideo(UnityEngine.Video.VideoPlayer vp)
     {
         currentVideo = Random.Range(0, VideoFileNames.Count - 1); // Choose next video at random
-        if(firstLoop) vp.url = videoFileFolderPath + blankVideoFileName; // use blank video for first set of panels
-            else vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
+        if (firstLoop) vp.url = videoFileFolderPath + blankVideoFileName; // use blank video for first set of panels
+        else vp.url = videoFileFolderPath + VideoFileNames[currentVideo];
         vp.prepareCompleted += SetVideoCaption;
         vp.Prepare();
 
@@ -151,7 +151,7 @@ public class VideoWatcher : MonoBehaviour
             int sec = Mathf.FloorToInt(videoLength % 60);
             string videoLengthString;
             if (min > 0) videoLengthString = min.ToString("00") + ":" + sec.ToString("00");
-                else videoLengthString = sec.ToString("00") + " secs";
+            else videoLengthString = sec.ToString("00") + " secs";
             string vpFileName = vp.url;
             vpFileName = vpFileName.Replace(videoFileFolderPath, "");
             currentFileNameText.text = makeNameString(vpFileName) + "\n<alpha=#88><size=70%>(" + videoLengthString + ")</size>";
@@ -304,8 +304,6 @@ public class VideoWatcher : MonoBehaviour
     // ---------------------------------------------------- MinimizeVideoPanel ----------------------------------------------------
     public void MinimizeVideoPanel(UnityEngine.Video.VideoPlayer vp)
     {
-        //vp.Pause(); // stop the video that is playing on maximized canvas
-
         // find all of the Minimized Video Panels and Play() them
         if (MinimizedVideoPanels == null)
             MinimizedVideoPanels = GameObject.FindGameObjectsWithTag("MinimizedVideoPanels");
@@ -314,18 +312,34 @@ public class VideoWatcher : MonoBehaviour
             var smallVP = smallPanel.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
             smallVP.Play();
         }
-
         var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
         canvasMaximized.SetActive(false);
+    }
+    // ---------------------------------------------------- ScrubVideoPosition ----------------------------------------------------
+    public void ScrubVideoPosition(UnityEngine.Video.VideoPlayer vp)
+    {
+        // Move video to the frame indicated by the scrubber (% of all frames)
+        var sliderChanged = vp.GetComponentInChildren<Slider>();
+        float newFrameFloat = (sliderChanged.value * (float)vp.frameCount);
+        long newFrame = (long)newFrameFloat;
+        float currentVideoPosition = (float)vp.frame / vp.frameCount;
 
 
+        Debug.Log("ScrubVideoPosition:");
+        Debug.Log(" - sliderChanged.value = " + sliderChanged.value);
+        Debug.Log(" - vp.frame = " + vp.frame + ", vp.frameCount = " + vp.frameCount);
+        Debug.Log(" - currentVideoPosition % = " + currentVideoPosition);
+        Debug.Log(" - newFrameFloat = " + newFrameFloat);
+        Debug.Log(" - newFrame = " + newFrame);
+
+        vp.frame = newFrame;
+        //vp.Play();
     }
 
 
 
     /* TODO List
      * 
-     * TEST: Favorites: escape " or ' characters for CSV (e.g. 2020-12-26 05-17 pm Testing 2.8" LCD touchscreen.mov)
      * Reset Favorite heart when new video is loaded
      * Fix popping audio during transition
      * Make sure maximized video Favorite and Mute work properly
@@ -338,5 +352,6 @@ public class VideoWatcher : MonoBehaviour
      * LONG TERM:
      * Instantiate video panels when needed (avoid prefab issues?)
      * Make an iPad version
+     * TEST: Favorites: escape " or ' characters for CSV (e.g. 2020-12-26 05-17 pm Testing 2.8" LCD touchscreen.mov)
      */
 }
