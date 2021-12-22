@@ -14,6 +14,7 @@ public class VideoWatcher : MonoBehaviour
     public GameObject startupPanel; // hide after loading
     public GameObject videoPanels; // show after loading
     public GameObject canvasOfVideos; // canvas with all videos showing
+    public GameObject maximizedVideoPlayer;
     public List<GameObject> VideoPanel; // a list of n videoPanels (4, 6, or whatever can be displayed)
     public List<string> ValidVideoExtensions;
     public Text LoadingText;
@@ -34,6 +35,7 @@ public class VideoWatcher : MonoBehaviour
     private GameObject[] itemsToHideAtStart;
     private string videoFileFolderPath;
     private GameObject[] MinimizedVideoPanels;
+    private GameObject MaximizedSourceVP;
 
     public struct FavoriteVideo
     {
@@ -73,8 +75,10 @@ public class VideoWatcher : MonoBehaviour
         }
         var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
         canvasMaximized.SetActive(false);
+        //MaximizedSourceVP = VideoPanel[0].gameObject; // assign an arbitrary gameobject to start
 
         SetupVideoList();
+        InvokeRepeating("UpdateScrubSliders", 3.0f, 0.1f); // update scrub bars once every 0.1 secs, starting after 3 secs
         preparingSetup = true; // starts wait cycle countdown (and covers over setup process)
     }
 
@@ -107,6 +111,51 @@ public class VideoWatcher : MonoBehaviour
                 BeginPlaying();
             }
         }
+    }
+    // ---------------------------------------------------- UpdateScrubSliders ----------------------------------------------------
+    void UpdateScrubSliders()
+    {
+        for (int i = 0; i < maxPanels; i++) // run through every videoPlayer...
+        {
+            var vp = VideoPanel[i].GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            var scrubSlider = vp.GetComponentInChildren<Slider>();
+            float pctPlayed = (float)vp.frame / vp.frameCount;
+            scrubSlider.value = pctPlayed;
+        }
+        if(MaximizedSourceVP != null)
+        {
+            // also do this for the Maximized VideoPlayer...
+            var vpMax = maximizedVideoPlayer.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            var vpSource = MaximizedSourceVP.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+            var scrubSliderMax = vpMax.GetComponentInChildren<Slider>();
+            float pctPlayedMax = (float)vpSource.frame / vpSource.frameCount;
+            scrubSliderMax.value = pctPlayedMax;
+        }
+
+    }
+
+    // ---------------------------------------------------- ScrubVideoPosition ----------------------------------------------------
+    public void ScrubVideoPosition(UnityEngine.Video.VideoPlayer vp)
+    {
+        var scrubSlider = vp.GetComponentInChildren<Slider>();
+
+        //if (vp == maximizedVideoPlayer) scrubSlider = vp.GetComponent<Slider>();
+
+        // Move video to the frame indicated by the scrubber (% of all frames)
+        float newFrameFloat = (scrubSlider.value * (float)vp.frameCount);
+        long newFrame = (long)newFrameFloat;
+
+        if (vp == maximizedVideoPlayer)
+        {
+            var vpSource = MaximizedSourceVP.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
+
+            vpSource.frame = newFrame;
+        }
+        else
+        {
+            vp.frame = newFrame;
+        }
+
     }
 
     // ---------------------------------------------------- BeginPlaying ----------------------------------------------------
@@ -172,6 +221,8 @@ public class VideoWatcher : MonoBehaviour
     {
         var scrubSlider = vp.GetComponentInChildren<Slider>(true); // true means find even if inactive!
         scrubSlider.value = 0.0f;
+        var scrubSliderMax = maximizedVideoPlayer.GetComponentInChildren<Slider>(true);
+        scrubSliderMax.value = 0.0f;
         // reset Favorite "heart"
         GameObject heartIconON = vp.transform.Find("Favorite is ON").gameObject;
         heartIconON.SetActive(false); // TODO: Change this if this video HAD been favorited!
@@ -310,11 +361,11 @@ public class VideoWatcher : MonoBehaviour
         // find all of the Minimized Video Panels and Pause() them
         //if (MinimizedVideoPanels == null)
         MinimizedVideoPanels = GameObject.FindGameObjectsWithTag("MinimizedVideoPanels");
-
+        MaximizedSourceVP = vp.gameObject; // remember which vp gameobject was clicked to Maximize originally
         foreach (GameObject smallPanel in MinimizedVideoPanels)
         {
             var smallVP = smallPanel.GetComponentInChildren<UnityEngine.Video.VideoPlayer>();
-            if (smallVP != vp)
+            if (smallVP != vp) // leave the original VP running as it was
             {
                 smallVP.Pause();
             }
@@ -347,16 +398,7 @@ public class VideoWatcher : MonoBehaviour
         var canvasMaximized = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(g => g.CompareTag("MaximizedCanvas"));
         canvasMaximized.SetActive(false);
     }
-    // ---------------------------------------------------- ScrubVideoPosition ----------------------------------------------------
-    public void ScrubVideoPosition(UnityEngine.Video.VideoPlayer vp)
-    {
-        // Move video to the frame indicated by the scrubber (% of all frames)
-        var scrubSlider = vp.GetComponentInChildren<Slider>();
-        float newFrameFloat = (scrubSlider.value * (float)vp.frameCount);
-        long newFrame = (long)newFrameFloat;
 
-        vp.frame = newFrame;
-    }
 
     // ---------------------------------------------------- SkipToNextVideo ----------------------------------------------------
     public void SkipToNextVideo(UnityEngine.Video.VideoPlayer vp)
