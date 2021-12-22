@@ -278,6 +278,23 @@ public class VideoWatcher : MonoBehaviour
         favoritesFile.Close();
     }
 
+    // ---------------------------------------------------- DeleteVideo ----------------------------------------------------
+    public void DeleteVideo(UnityEngine.Video.VideoPlayer vp)
+    {
+        videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
+
+        string vpFileName = vp.url;
+        vpFileName = vpFileName.Replace(videoFileFolderPath, "");
+        vpFileName = vpFileName.Replace("\"", "\"\""); // deal with quotation marks in file names for CSV
+
+        string csvString = '"' + vpFileName + '"';
+        Debug.Log("DELETEVIDEO: " + csvString);
+        StreamWriter deletesFile = new StreamWriter(Application.persistentDataPath + "_delete_list_2021.csv", true);
+        deletesFile.WriteLine(csvString);
+        deletesFile.Close();
+    }
+
     // ---------------------------------------------------- JumpToFrame ----------------------------------------------------
 
     public void JumpToFrame(UnityEngine.Video.VideoPlayer vp, float percentOfClip)
@@ -359,6 +376,7 @@ public class VideoWatcher : MonoBehaviour
     /* TODO List
      * 
      * Fix popping audio during transition
+     * Enable "Delete Video"
      * Make sure maximized video Favorite and Mute work properly
      * Show file name on maximized version
      * Add a slider to each video, showing % played.  Update when hovering?  Or anytime?
