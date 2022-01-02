@@ -9,7 +9,8 @@ using System.Xml.Schema;
 
 public class VideoWatcher : MonoBehaviour
 {
-    public string videoFileFolderPathMac = "////Users/tedbarnett/Dropbox (barnettlabs)/Videos/Ted Videos/";
+    // public string videoFileFolderPathMac = "////Users/tedbarnett/Dropbox (barnettlabs)/Videos/My Videos/";
+    public string videoFileFolderPathMac = "////Users/tedbarnett/Google Drive/My Drive/My Videos/";
     public string videoFileFolderPathWindows;
     public GameObject startupPanel; // hide after loading
     public GameObject videoPanels; // show after loading
@@ -189,7 +190,7 @@ public class VideoWatcher : MonoBehaviour
         vp.Pause(); // required on Mac to allow VideoPlayer to load attributes below
         TextMeshProUGUI currentFileNameText = vp.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         //TODO: Make sure audio is muted to avoid "pop" sound?
-        if (firstLoop) // TODO: unnecessary now?
+        if (firstLoop)
         {
             currentFileNameText.text = "";
             firstLoopCounter++;
@@ -306,6 +307,7 @@ public class VideoWatcher : MonoBehaviour
         // TODO: Set corresponding "Favorite" icon in the minimized version of this video!
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
+        videoFileFolderPath = "////Users/tedbarnett/Google Drive/My Drive/My Videos/";
 
         float favoriteStartPointPct = (float)vp.frame / vp.frameCount;
 
@@ -322,10 +324,27 @@ public class VideoWatcher : MonoBehaviour
             EndPointPct = 0.0f
         };
 
-        string csvString = '"' + vpInfo.FileName + '"' + "," + '"' + vpInfo.Description + '"' + "," + vpInfo.StartPointPct.ToString() + "," + vpInfo.EndPointPct.ToString();
-        Debug.Log("SETFAVORITE: " + csvString);
-        StreamWriter favoritesFile = new StreamWriter(Application.persistentDataPath + "_favorites2021.csv", true);
-        favoritesFile.WriteLine(csvString);
+
+        //TODO: Copy this new regime to the DeleteFile code
+        string headerString = '"' + "Filename" + '"' + "," + '"' + "Description" + '"' + "," + "Start Pt Percent" + "," + "End Pt Percent" + "," + "GMT UnixTimeStamp";
+        string unixTimestamp = System.Convert.ToString((int)System.DateTime.Now.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
+        string csvString = '"' + vpInfo.FileName + '"' + "," + '"' + vpInfo.Description + '"' + "," + vpInfo.StartPointPct.ToString() + "," + vpInfo.EndPointPct.ToString() + "," + unixTimestamp;
+
+        string curFile = videoFileFolderPath + "_favorites2022.csv";
+        bool fileExists = File.Exists(curFile);
+
+        StreamWriter favoritesFile = new StreamWriter(videoFileFolderPath + "_favorites2022.csv", true);
+        //StreamWriter favoritesFile = new StreamWriter(Application.persistentDataPath + "_favorites2022.csv", true);
+
+        if (fileExists)
+        {
+            favoritesFile.WriteLine(csvString);
+        }
+        else
+        {
+            favoritesFile.WriteLine(headerString);
+            favoritesFile.WriteLine(csvString);
+        }
         favoritesFile.Close();
     }
 
@@ -335,15 +354,35 @@ public class VideoWatcher : MonoBehaviour
         videoFileFolderPath = videoFileFolderPathMac; // default assumption is Mac platform
         if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) videoFileFolderPath = videoFileFolderPathWindows;
 
+        videoFileFolderPath = "////Users/tedbarnett/Google Drive/My Drive/My Videos/";
         string vpFileName = vp.url;
         vpFileName = vpFileName.Replace(videoFileFolderPath, "");
         vpFileName = vpFileName.Replace("\"", "\"\""); // deal with quotation marks in file names for CSV
 
-        string csvString = '"' + vpFileName + '"';
-        Debug.Log("DELETEVIDEO: " + csvString);
-        StreamWriter deletesFile = new StreamWriter(Application.persistentDataPath + "_delete_list_2021.csv", true);
-        deletesFile.WriteLine(csvString);
+        string headerString = '"' + "Filename" + '"' + "," + '"' + "GMT UnixTimeStamp" + '"';
+        string unixTimestamp = System.Convert.ToString((int)System.DateTime.Now.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
+
+        string csvString = '"' + vpFileName + '"' + "," + unixTimestamp;
+
+        // -------
+
+        string curFile = videoFileFolderPath + "_delete_list_2022.csv";
+        bool fileExists = File.Exists(curFile);
+
+        StreamWriter deletesFile = new StreamWriter(videoFileFolderPath + "_delete_list_2022.csv", true);
+        //StreamWriter favoritesFile = new StreamWriter(Application.persistentDataPath + "_delete_list_2022.csv", true);
+
+        if (fileExists)
+        {
+            deletesFile.WriteLine(csvString);
+        }
+        else
+        {
+            deletesFile.WriteLine(headerString);
+            deletesFile.WriteLine(csvString);
+        }
         deletesFile.Close();
+
     }
 
     // ---------------------------------------------------- JumpToFrame ----------------------------------------------------

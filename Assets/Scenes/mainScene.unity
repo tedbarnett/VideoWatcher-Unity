@@ -123,12 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &25696946 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2932264724636978532, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
-    type: 3}
-  m_PrefabInstance: {fileID: 3639062617027618513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &182471059
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,11 +601,16 @@ PrefabInstance:
         type: 3}
       propertyPath: maximizedVideoPlayer
       value: 
-      objectReference: {fileID: 25696946}
+      objectReference: {fileID: 3639062616762996109}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: showFilenameTimeSecs
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: videoFileFolderPathMac
+      value: ////Users/tedbarnett/Google Drive/My Drive/My Videos/
       objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
@@ -648,6 +647,11 @@ PrefabInstance:
       propertyPath: VideoPanel.Array.data[5]
       value: 
       objectReference: {fileID: 1480003971}
+    - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
+        type: 3}
+      propertyPath: videoFileFolderPathWindows
+      value: E:\Dropbox (barnettlabs)\Videos\My Videos\
+      objectReference: {fileID: 0}
     - target: {fileID: 4163182800231130057, guid: 44086aa8253284ac2b21d2e78b2f63c9,
         type: 3}
       propertyPath: FavoriteVideosList.Array.size
@@ -733,7 +737,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!223 &3639062616762996144
 Canvas:
   m_ObjectHideFlags: 0
@@ -832,12 +836,12 @@ PrefabInstance:
     - target: {fileID: 921259330712089634, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 921259330712089634, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 921259330712089634, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
@@ -1109,7 +1113,7 @@ PrefabInstance:
     - target: {fileID: 5414889168667355969, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5414889168667355969, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
@@ -1154,17 +1158,17 @@ PrefabInstance:
     - target: {fileID: 6296828179591558824, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6787227512921943048, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6836451794437143961, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6836451794437143961, guid: 1cf5eade0c3f647f7afe2dfd88c6a9d0,
         type: 3}
@@ -1862,6 +1866,31 @@ PrefabInstance:
     - target: {fileID: 7000221468445176860, guid: bec3740caf78e48b8b182a4c96cd2410,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7000221468662562537, guid: bec3740caf78e48b8b182a4c96cd2410,
+        type: 3}
+      propertyPath: m_CellSize.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 7000221468662562537, guid: bec3740caf78e48b8b182a4c96cd2410,
+        type: 3}
+      propertyPath: m_CellSize.y
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 7000221468662562537, guid: bec3740caf78e48b8b182a4c96cd2410,
+        type: 3}
+      propertyPath: m_Constraint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7000221468662562537, guid: bec3740caf78e48b8b182a4c96cd2410,
+        type: 3}
+      propertyPath: m_ConstraintCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7000221469236376468, guid: bec3740caf78e48b8b182a4c96cd2410,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7000221469297971286, guid: bec3740caf78e48b8b182a4c96cd2410,

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.elringus.unitygoogledrive": "https://github.com/Elringus/UnityGoogleDrive.git#package",
     "com.unity.2d.animation": "7.0.2",
     "com.unity.2d.pixel-perfect": "5.0.1",
     "com.unity.2d.psdimporter": "6.0.1",
