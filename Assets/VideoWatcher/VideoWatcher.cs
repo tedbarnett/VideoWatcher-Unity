@@ -224,12 +224,11 @@ public class VideoWatcher : MonoBehaviour
         scrubSlider.value = 0.0f;
         var scrubSliderMax = maximizedVideoPlayer.GetComponentInChildren<Slider>(true);
         scrubSliderMax.value = 0.0f;
-        // reset Favorite "heart"
+        //Debug.Log("ResetVideoControls, vp.name = " + vp.name);
+
         GameObject heartIconON = vp.transform.Find("Favorite is ON").gameObject;
         heartIconON.SetActive(false); // TODO: Change this if this video HAD been favorited!
-
-        GameObject videoControlPanel = vp.transform.Find("Video Control Panel").gameObject;
-        GameObject heartIconOFF = videoControlPanel.transform.Find("Favorite is OFF").gameObject;
+        GameObject heartIconOFF = vp.transform.Find("Favorite is OFF").gameObject;
         heartIconOFF.SetActive(true);
     }
 
