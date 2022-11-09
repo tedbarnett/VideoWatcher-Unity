@@ -1818,7 +1818,7 @@ GameObject:
   - component: {fileID: 2108441831995314754}
   - component: {fileID: 9096363469010602289}
   m_Layer: 5
-  m_Name: Button background panel
+  m_Name: Button Background Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2732,7 +2732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8365093722300288656
 RectTransform:
   m_ObjectHideFlags: 0
